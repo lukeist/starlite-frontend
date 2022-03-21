@@ -1,0 +1,113 @@
+@import "./colorcode";
+
+.stonk-up {
+  color: $color-stonkup-first;
+  .trade-info {
+    input {
+      transition: all ease-in-out 0.3s;
+    }
+    input:focus {
+      box-shadow: inset 0 0 0 1px $color-stonkup-first;
+      border: none !important;
+    }
+  }
+  .trade-submit {
+    input {
+      // box-shadow: inset 0 0 0 1px $color-stonkdown;
+      background-color: $color-stonkup-second;
+      transition: all ease-in-out 0.3s;
+    }
+    input:hover {
+      // box-shadow: inset 0 0 0 1px $color-stonkdown-button;
+      background-color: $color-stonkup-first;
+    }
+  }
+  button {
+    border: solid 1px $color-stonkup-second;
+    // border: none;
+    // box-shadow: inset 0 0 0 1px $color-stonkup-second;  // Why there is a glicht in the corner?
+    background-color: transparent;
+    color: $color-stonkup-second;
+    transition: all ease 0.3s;
+  }
+  button:hover {
+    background-color: $color-stonkup-third;
+  }
+  .investment-type-option:hover {
+    background: $color-stonkup-second;
+  }
+  .trade-panel-buying-power-txt {
+    color: $color-stonkup-second;
+  }
+  .sell-all {
+    span:hover {
+      color: $color-stonkup-second;
+    }
+  }
+  .sell-all:hover {
+    color: $color-stonkup-second;
+  }
+  .portfolio-table-title {
+    color: $color-stonkup-first;
+  }
+  .portfolio-table-subtitle {
+    color: $color-stonkup-second;
+  }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+.stonk-down {
+  color: $color-stonkdown-first;
+  .trade-info {
+    input {
+      transition: all ease-in-out 0.3s;
+    }
+
+    input:focus {
+      box-shadow: inset 0 0 0 1px $color-stonkdown-first;
+      border: none !important;
+    }
+  }
+  .trade-submit {
+    input {
+      // box-shadow: inset 0 0 0 1px $color-stonkdown;
+      background-color: $color-stonkdown-second;
+      transition: all ease-in-out 0.3s;
+    }
+    input:hover {
+      // box-shadow: inset 0 0 0 1px $color-stonkdown-button;
+      background-color: $color-stonkdown-first;
+    }
+  }
+
+  button {
+    border: solid 1px $color-stonkdown-second;
+    // border: none;
+    // box-shadow: inset 0 0 0 1px $color-stonkdown-second; // Why there is a glicht in the corner?
+    background-color: transparent;
+    color: $color-stonkdown-second;
+    transition: all ease 0.3s;
+  }
+  button:hover {
+    background-color: $color-stonkdown-third;
+  }
+  .investment-type-option:hover {
+    background: $color-stonkdown-third;
+  }
+  .trade-panel-buying-power-txt {
+    color: $color-stonkdown-second;
+  }
+  .sell-all {
+    span:hover {
+      color: $color-stonkdown-second;
+    }
+  }
+  .sell-all:hover {
+    color: $color-stonkdown-second;
+  }
+  .portfolio-table-title {
+    color: $color-stonkdown-first;
+  }
+  .portfolio-table-subtitle {
+    color: $color-stonkdown-second;
+  }
+}

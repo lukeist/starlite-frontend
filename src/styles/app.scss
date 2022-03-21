@@ -1,0 +1,167 @@
+@import "./home";
+@import "./news";
+@import "./mainnews";
+@import "./nav";
+@import "./stock";
+@import "./list";
+@import "./loadingeffect";
+@import "./colorcode";
+@import "./darklighttoggle";
+@import "./stonkcolor";
+@import "./panelbuysellstock";
+@import "./favlistpanel";
+@import "./popuplists";
+@import "./formcreatelist";
+@import "./emoji";
+@import "./messages";
+@import "./portfolio";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: 0;
+  // border: 1px solid red;
+}
+
+html {
+  height: 100%;
+  min-height: 100%;
+  // width: 100vw; // for scrollbar's width not affect body's width
+
+  // background: red;
+  // -webkit-background-size: cover;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
+  // background-size: cover;
+  &::-webkit-scrollbar {
+    width: 0.4rem;
+    background-color: lightgray;
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-thumb {
+    color: darkgray;
+    background-color: $color-stonkup-first;
+    cursor: pointer;
+    border-radius: 1rem;
+  }
+}
+body {
+  // background: red;
+  // -webkit-background-size: cover;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
+  // background-size: cover;
+  // width: 100%;
+  // margin-top: 60px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  height: 100%;
+  min-height: 100%;
+  // overflow-x: hidden;
+}
+
+.dark-mode {
+  background: $color-dark-background;
+  min-height: 100vh;
+  h1 {
+    font-size: 3rem;
+    font-weight: 500;
+  }
+  h2 {
+    font-size: 3rem;
+    font-family: "Lobster", cursive;
+    font-weight: lighter;
+  }
+  h3 {
+    font-size: 1.3rem;
+    color: $color-dark-text-first;
+    font-weight: 500;
+    line-height: 150%;
+    // padding-top: 2rem;
+    // padding-bottom: 1rem;
+  }
+  h4 {
+    font-size: 1rem;
+    color: $color-dark-text-first;
+    font-weight: 500;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 150%;
+    color: $color-dark-text-second;
+  }
+  a {
+    text-decoration: none;
+    color: $color-dark-text-second;
+  }
+
+  hr {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 0px auto;
+    height: 0;
+    width: 100%;
+    max-height: 0;
+    font-size: 1px;
+    line-height: 0;
+    clear: both;
+    border: none;
+    border-top: 1px solid $color-dark-outline;
+    // border-bottom: 1px solid #ffffff;
+    z-index: 1;
+  }
+}
+
+.light-mode {
+  background-color: $color-light-background;
+  min-height: 100vh;
+  h1 {
+    font-size: 3rem;
+    font-weight: 500;
+  }
+  h2 {
+    font-size: 3rem;
+    font-family: "Lobster", cursive;
+    font-weight: lighter;
+  }
+  h3 {
+    font-size: 1.3rem;
+    color: #444;
+    font-weight: 500;
+    line-height: 150%;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+  }
+  h4 {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 500;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 150%;
+    color: #696969;
+  }
+  a {
+    text-decoration: none;
+    color: #444;
+  }
+
+  hr {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 0px auto;
+    height: 0;
+    width: 100%;
+    max-height: 0;
+    font-size: 1px;
+    line-height: 0;
+    clear: both;
+    border: none;
+    border-top: 1px solid lightgray;
+    // border-bottom: 1px solid #ffffff;
+    z-index: 1;
+  }
+}

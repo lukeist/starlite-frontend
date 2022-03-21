@@ -1,0 +1,36 @@
+@import "./colorcode";
+.dark-mode {
+  .stock-body {
+    min-width: 640px;
+    grid-column-start: 3;
+
+    ul {
+      list-style-type: none;
+      // display: block;
+      flex-direction: column;
+      padding: 1rem 0rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+      grid-column-gap: 2rem;
+      grid-row-gap: 1rem;
+    }
+    dt {
+      font-weight: 450;
+      padding: 0.5rem 0rem;
+      color: $color-dark-text-first;
+    }
+    dd {
+      color: $color-dark-text-second;
+    }
+    img {
+      width: 50%;
+    }
+  }
+
+  .fav-stock {
+    a {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+  }
+}

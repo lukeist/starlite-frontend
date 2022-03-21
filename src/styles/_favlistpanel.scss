@@ -1,0 +1,363 @@
+@import "./colorcode";
+
+.dark-mode {
+  .fav-container {
+    // position: absolute; ///// solution 1
+    position: relative;
+    top: 1rem;
+    height: 0vh; // for fav-panel not going down out of body leaving white space //  (last was 100%) to lock panel to position absolute
+    justify-self: flex-start;
+    padding-left: 2rem;
+    // width: 300px;
+    // max-width: 400px;
+    // min-width: 300px;
+    z-index: 999; // this z-index > nav's z-index for popup to appear above nav
+
+    .fav-list {
+      // position: sticky; ///// solution 1
+      position: fixed;
+      top: 5rem;
+      bottom: 2rem;
+      overflow: auto;
+      /* Hide scrollbar for IE, Edge and Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      // transform: translate(-50%, 0);
+      // margin-left: auto;
+      // margin-right: auto;
+      background-color: $color-dark-hover;
+      border-radius: 0.3rem;
+      box-shadow: $color-dark-boxshadow;
+      border: 1px solid $color-dark-outline;
+      width: 276px;
+    }
+  }
+  .fav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h4 {
+      padding: 1rem 1.5rem;
+    }
+    .fav-icon {
+      padding: 1rem 1.5rem;
+      color: lightgray;
+      font-size: 150%;
+      cursor: pointer;
+    }
+    .fav-icon:hover {
+      color: $color-dark-hover-icon;
+      transition: all ease 0.2s;
+    }
+  }
+
+  .list-container {
+    transition: all ease 0.5s;
+    // display: flex;
+    // flex-direction: column;
+    .list-header {
+      color: $color-dark-text-first;
+      display: grid;
+      grid-template-columns: 6fr 2fr;
+      align-items: center;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      padding-left: 1rem;
+      padding-right: 1.5rem;
+      cursor: pointer;
+    }
+    .list-header:hover {
+      background-color: $color-dark-outline;
+    }
+
+    // .list-details {
+    //   display: flex;
+    //   justify-content: space-between;
+    //   position: relative;
+    // }
+    .list-header .facog-hide {
+      opacity: 0;
+      color: $color-dark-text-third;
+      font-size: 100%;
+      transition: all ease 0.3s;
+      align-self: center;
+      // margin-left: 0.5rem;
+    }
+    .list-header:hover .facog-hide {
+      opacity: 1;
+    }
+    .facog-hide:hover {
+      color: $color-dark-hover-icon;
+    }
+    .faangle-icon {
+      color: $color-dark-text-second;
+      font-size: 150%;
+      transition: 0.4s;
+    }
+    .faangle-icon:hover {
+      color: $color-dark-hover-icon;
+    }
+    .faangle-down {
+      color: $color-dark-text-second;
+      font-size: 150%;
+      transition: 0.4s;
+    }
+    .faangle-up {
+      color: $color-dark-text-second;
+      font-size: 150%;
+      transition: 0.4s;
+    }
+    .faangle-faded {
+      opacity: 1;
+      transform: rotateZ(180deg);
+      transition: 0.4s;
+    }
+  }
+
+  .list-stocks {
+    transition: opacity 1s;
+  }
+  .fav-stock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 1.5rem;
+    font-size: small;
+    list-style-type: none;
+    cursor: pointer;
+    li {
+      font-size: small;
+    }
+    .fav-symbol {
+      width: 20%;
+      font-weight: 500;
+      color: $color-dark-text-first;
+    }
+    .fav-graph {
+      text-align: right;
+    }
+    .fav-quote {
+      width: 30%;
+      padding: 0.5rem 0rem;
+      text-align: right;
+      color: $color-dark-text-first;
+      dd {
+        padding-top: 0.3rem;
+      }
+    }
+  }
+  .fav-stock:hover {
+    background-color: $color-dark-outline;
+  }
+}
+
+.list-info {
+  display: grid;
+  grid-template-columns: 1fr 4.5fr;
+  padding: 0.5rem 0.5rem;
+
+  // width: auto;
+  h4 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // vertical-align: middle;
+}
+.list-info:hover {
+  background-color: $color-stonkup-last;
+  border-radius: 0.3rem;
+}
+.list-emoji {
+  padding: 0.5rem;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px $color-dark-highlight;
+  border-radius: 0.3rem;
+  background: $color-dark-outline;
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+}
+.list-name {
+  padding-left: 0.5rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+}
+
+.list-details {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 0.5rem;
+  position: relative;
+}
+
+.cog-flexend {
+  justify-content: flex-end !important;
+}
+.listedit-shadow {
+  width: 100%;
+  min-height: 100vh;
+  // overflow-y: scroll; // wherever I am on the page, this div pops up right in the middle
+  background: rgba(0, 0, 0, 0);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+// .listedit-container {
+//   position: relative;
+//   background: red;
+// }
+
+// .cog-popup {
+//   position: absolute !important;
+// }
+
+.lists-edit {
+  list-style-type: none;
+  position: absolute;
+  -webkit-transform: translateX(-75%) translateY(25%);
+  transform: translateX(-75%) translateY(25%);
+  padding: 0.5rem;
+  width: 150px;
+  border: solid 1px $color-dark-highlight;
+  border-radius: 0.5rem;
+  background: $color-dark-outline;
+  z-index: 10;
+  color: $color-dark-text-second;
+  font-size: small;
+  overflow: hidden;
+  box-shadow: $color-dark-boxshadow;
+  .list-edit {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    align-items: center;
+  }
+  .edit-icon {
+    padding: 0.5rem;
+  }
+}
+
+.lists-retransform {
+  -webkit-transform: translateX(0%) translateY(25%) !important;
+  transform: translateX(0%) translateY(25%) !important;
+}
+.cog-retransform {
+  -webkit-transform: translateX(-100%) translateY(100%) !important;
+  transform: translateX(-100%) translateY(100%) !important;
+  cursor: pointer;
+  z-index: 17;
+}
+
+// .popupdelete-shadow {
+//   width: 100%;
+//   min-height: 100vh;
+//   // overflow-y: scroll; // wherever I am on the page, this div pops up right in the middle
+//   background: rgba(0, 0, 0, 0.2);
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   z-index: 10;
+// }
+
+// .popup-delete {
+//   list-style-type: none;
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   -webkit-transform: translateX(-100%) translateY(50%);
+//   transform: translateX(-100%) translateY(50%);
+//   padding: 0.5rem;
+//   width: 150px;
+//   border: solid 1px $color-dark-highlight;
+//   border-radius: 0.5rem;
+//   background: $color-dark-outline;
+//   z-index: 10;
+//   color: $color-dark-text-second;
+//   font-size: small;
+//   overflow: hidden;
+//   box-shadow: $color-dark-boxshadow;
+//   .list-edit {
+//     display: grid;
+//     grid-template-columns: 1fr 4fr;
+//     align-items: center;
+//   }
+// }
+
+.confirm-list {
+  top: 25% !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirm-txt {
+  padding: 1rem;
+  text-align: center;
+  color: $color-dark-text-first;
+  font-size: 150% !important;
+}
+.confirm-listname {
+  color: $color-stonkdown-first;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  direction: ltr;
+  width: 30vw;
+  margin: auto;
+  text-align: justify;
+  word-break: break-word;
+  white-space: pre-line;
+  -ms-word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.confirm-buttons {
+  padding-bottom: 1rem;
+  // display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  // width: 100%;
+  align-items: center;
+  justify-content: center;
+  button {
+    // width: 100%;
+    background: transparent;
+    color: $color-stonkup-first;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+  }
+  button:hover {
+    background: $color-stonkup-third;
+  }
+  input {
+    // width: 100%;
+    background: $color-stonkup-second;
+    padding: 1rem 4rem;
+    cursor: pointer;
+  }
+  input:hover {
+    background: $color-stonkup-first;
+  }
+}
+.confirm-button {
+  // margin: 0.25rem;
+  border-radius: 0.3rem;
+  border: solid 1px $color-stonkup-second;
+  // width: 100%;
+}

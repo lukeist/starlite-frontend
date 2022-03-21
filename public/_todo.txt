@@ -1,0 +1,39 @@
+
+- dark/light theme
+
+- buy/sell panel's width have to = watching panel's width
+
+
+- login > only logging in: can 'watch stock' > after clicking on login: nav account shows up, nav login disappears
+
+
+- add transition to all hovers
+
+
+
+
+- fix errors in console
+
+
+- list name (paneladdremoveeditlist): 1-64 characters 
+-           minLength="1" function
+- ETF doesnt show tickers
+
+` DOI MAT MA munich@
+
+
+
+- shadow when search 
+
+- sell all button
+
+- popup: when 'amount' > 'buying power': popup-shadow not working
+- BUY popup: when isTradeQuantityGreaterThanQuantityOfCurrentStock 'shares' input resets to 0
+- $1,000,000.0, buying power available
+
+
+- change classname market-price-result to something general to use in other places 
+
+
+- MATH PROBLEM: MATH IS NOT PRECISE => PROBLEM WHEN CALCULATE / BUY SELL TINY AMOUNT: like DOLLARS $1 
+- SELL ALL input in Shares error with .xxxx
