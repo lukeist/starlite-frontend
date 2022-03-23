@@ -44,11 +44,11 @@ const FormCreateList = ({ isRenamingList, setIsRenamingList, list }) => {
       // dispatch(isNotRenamingList());
       setIsRenamingList(false);
     } else {
-      const listId = uuidv4();
+      // const listId = uuidv4();
       // dispatch(createListAction(listName, emoji, listId));
       try {
         await axios.post(
-          `${process.env.REACT_APP_STARLITE_API}watchlists/add`,
+          `${process.env.REACT_APP_STARLITE_API}/watchlists/add`,
           newWatchList
         );
       } catch (error) {

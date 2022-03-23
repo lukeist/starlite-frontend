@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
@@ -13,6 +13,7 @@ import DeleteList from "./FavList-DeleteList";
 import RenameList from "./FavList-RenameList";
 import { Link, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { watchListsFromDB } from "../api";
 
 const FavListPanelsList = ({ list }) => {
   const [showingStocks, setShowingStocks] = useState(true);
@@ -24,6 +25,7 @@ const FavListPanelsList = ({ list }) => {
   //   (state) => state.utilities.PopUpEditingList
   // );
   const location = useLocation();
+  const listId = list._id;
   const locationPathnamesLength = location.pathname.length;
   const locationPathnamesLengthThatNotContainsList = 2;
   const exitPopUpListEdit = (e) => {
@@ -42,14 +44,35 @@ const FavListPanelsList = ({ list }) => {
     setPopUpEditList(false);
     setIsDeletingList(true);
   };
+
+  const [listContents, setListContents] = useState([]);
+
+  useEffect(() => {
+    // this method fetch the list's contents from the database
+    const getContents = async () => {
+      const response = await watchListsFromDB;
+      const filterListfromListsToArray = response.data.filter(
+        (state) => state._id === listId
+      );
+      const state = filterListfromListsToArray[0]; // because there's only 1 object in array after filter
+      setListContents(state);
+    };
+    getContents();
+    console.log(listContents);
+  }, [
+    listContents.listName,
+    listContents.emoji,
+    // stateOfCurrentList.tickers.length,
+  ]);
+
   return (
     <div className="list-container">
       <div className="list-header">
-        <Link to={`/lists/${list.id}`}>
+        <Link to={`/lists/${list._id}`} state={listContents}>
           <div className="list-info">
-            <h4 className="list-emoji">{list.emoji}</h4>
+            <h4 className="list-emoji">{listContents.emoji}</h4>
             <div className="list-name">
-              <h4>{list.listName}</h4>
+              <h4>{listContents.listName}</h4>
             </div>
           </div>
         </Link>

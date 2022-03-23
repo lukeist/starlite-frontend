@@ -1,6 +1,8 @@
 // base URL
 // const base_url = `http://api.rawg.io/api/games?key=${process.env.REACT_APP_RAWG_API}&`;
 
+import axios from "axios";
+
 // const base_url = `http://api.weatherapi.com/v1/`;
 // const api_key = `json?&key=${process.env.REACT_APP_WEATHER_API}`;
 // getting the date
@@ -119,3 +121,9 @@ export const symbolLookupData = (terms) =>
 // var unsubscribe = function (symbol) {
 //   socket.send(JSON.stringify({ type: "unsubscribe", symbol: symbol }));
 // };
+
+//////////////////////////////////////////////////////// DATA FROM STARLITE BACKEND MONGODB
+export const starliteAPI = process.env.REACT_APP_STARLITE_API;
+export const watchListsFromDB = axios.get(
+  `${process.env.REACT_APP_STARLITE_API}/watchlists/`
+);

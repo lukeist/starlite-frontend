@@ -5,6 +5,9 @@ import { renameListAction } from "../store/actions/listAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog, faEraser } from "@fortawesome/free-solid-svg-icons";
 import Emojis from "../components/Emojis";
+import axios from "axios";
+import { useLocation, useParams } from "react-router-dom";
+import { starliteAPI } from "../api";
 
 const ListHeader = ({
   listId,
@@ -15,32 +18,66 @@ const ListHeader = ({
   setListName,
   setIsDeletingList,
 }) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const params = useParams();
   const [cogDelete, setCogDelete] = useState(false);
   const [emojiActive, setEmojiActive] = useState(false);
-  const dispatch = useDispatch();
-  const submitNewListViaEmojiHandler = () => {
-    currentList.emoji = emoji;
-    currentList.listName = listName;
-    dispatch(renameListAction(listName, emoji, listId));
-  };
+  const [watchList, setWatchList] = useState(currentList);
 
-  const getInput = (e) => {
-    setListName(e.target.value);
+  const updateWatchList = (value) => {
+    return setWatchList((prev) => {
+      return { ...prev, ...value };
+    });
   };
+  // This will send a post request to update the data in the database.
+  const submitUpdatedWatchListToDB = async () => {
+    const editedList = {
+      ...watchList,
+    };
+    location.state = { ...watchList };
+    try {
+      await axios.post(
+        `${starliteAPI}/update-watchlist/${params.id}`,
+        editedList
+      );
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+  // update currentList's Emoji
+  // const submitNewListViaEmojiHandler = () => {
+  //   // currentList.emoji = emoji;
+  //   // currentList.listName = listName;
+  //   console.log(emoji);
+  //   dispatch(renameListAction(listName, emoji, listId));
+  //   // updateWatchList({ emoji }); // from setEmoji in Emojis.js
+  // };
   const exitPopUpEmoji = (e) => {
     const element = e.target;
     if (element.classList.contains("emoji-shadow")) {
       setEmojiActive(false);
-      submitNewListViaEmojiHandler();
+      dispatch(renameListAction(listName, emoji, listId));
+      submitUpdatedWatchListToDB();
+      // submitNewListViaEmojiHandler();
     }
   };
-  const submitNewListHandler = (e) => {
+
+  // update currentList's listName
+  const getInput = (e) => {
+    setListName(e.target.value);
+    updateWatchList({ listName: e.target.value });
+  };
+  const submitNewList = (e) => {
     e.preventDefault();
-    currentList.emoji = emoji;
-    currentList.listName = listName;
+    submitUpdatedWatchListToDB();
     dispatch(renameListAction(listName, emoji, listId));
+    // currentList.emoji = emoji;
+    // currentList.listName = listName;
   };
 
+  // Delete currentList
   const exitPopUpCogDelete = (e) => {
     const element = e.target;
     if (element.classList.contains("listedit-shadow")) {
@@ -51,10 +88,12 @@ const ListHeader = ({
     setCogDelete(false);
     setIsDeletingList(true);
   };
+
   return (
     <div className="list-header">
+      <button onClick={() => console.log(watchList)}>sdfasdfasdf</button>
       <form
-        onSubmit={submitNewListHandler}
+        onSubmit={submitNewList}
         className="listpage-form"
         action=""
         id="form-addlist"
@@ -80,7 +119,7 @@ const ListHeader = ({
               maxLength="68"
               required
               value={listName}
-              onBlur={submitNewListHandler}
+              onBlur={submitNewList}
             />
             <FontAwesomeIcon
               onClick={() => setCogDelete(true)}
@@ -110,9 +149,7 @@ const ListHeader = ({
               : currentList.tickers.length + ` item`}
           </p>
           {currentList.tickers.length === 0 && (
-            <h4 className="list-header-sub-text">
-              This list is empty, like your life.
-            </h4>
+            <h4 className="list-header-sub-text">This list is still empty.</h4>
           )}
         </div>
         {emojiActive && (
@@ -120,7 +157,7 @@ const ListHeader = ({
         )}
         {emojiActive && (
           <div className="picker-emoji list-emoji">
-            <Emojis setEmoji={setEmoji} />
+            <Emojis setEmoji={setEmoji} updateWatchList={updateWatchList} />
           </div>
         )}
       </form>

@@ -9,10 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import getStocksForMyFirstList from "../components/_getStocksForMyFirstList";
 
 const Home = () => {
-  // GET CURRENT LOCATION:
-  // const location = useLocation();
-  // console.log(location.pathname);
-  // FETCH STOCKS
   const dispatch = useDispatch();
 
   // get data back from state
