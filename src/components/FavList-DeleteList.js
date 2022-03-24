@@ -2,6 +2,7 @@
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { removeListAction } from "../store/actions/listAction";
+import { deleteWatchList } from "./_crudToMongoDB";
 
 const DeleteList = ({ setIsDeletingList, list }) => {
   const dispatch = useDispatch();
@@ -17,11 +18,13 @@ const DeleteList = ({ setIsDeletingList, list }) => {
   // const allCurrentLists = useSelector((state) => state.entities.stockLists);
 
   const deleteListHandler = () => {
-    dispatch(removeListAction(list.id));
+    dispatch(removeListAction(list._id));
+    deleteWatchList(list._id);
     setIsDeletingList(false);
     if (locationPathnamesLength > locationPathnamesLengthThatNotContainsList) {
       navigate("/");
     }
+    console.log(list._id);
     // if (allCurrentLists.indexOf(list) < 0) {
     //   navigate("/");
     // }

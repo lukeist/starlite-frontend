@@ -12,7 +12,6 @@ import ListHeader from "../components/List-Header";
 import { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { watchListsFromDB } from "../api";
 
 const List = () => {
@@ -58,8 +57,9 @@ const List = () => {
       return;
     }
   }, [location.pathname]);
-  ////////////////////////////////////////////////////////////////////////////////
 
+  ////////////////////////////////////////////////////////////////////////////////
+  // DO NOT CHANGE
   //////////////// ANIMATE THE HEADER WHEN SCROLL TO A CERTAIN POINT https://stackoverflow.com/questions/32856341/pure-js-add-and-remove-toggle-class-after-scrolling-x-amount/32856377
   //////////////// https://stackoverflow.com/questions/56541342/react-hooks-why-is-current-null-for-useref-hook
   const headerRef = useRef(null);
@@ -82,6 +82,7 @@ const List = () => {
     }
   });
   ////////////////////////////////////////////////////////////////////////////////
+
   return (
     <div className="home">
       {/* {stockActive ? ( */}

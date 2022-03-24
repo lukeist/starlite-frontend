@@ -1,46 +1,53 @@
-export const createListAction = (listName, emoji, id) => (dispatch) => {
+export const getWatchListsAction = (list) => (dispatch) => {
+  dispatch({
+    type: "GET_WATCHLISTS",
+    payload: list,
+  });
+};
+
+export const createListAction = (listName, emoji, _id) => (dispatch) => {
   dispatch({
     type: "CREATE_LIST",
     payload: {
       listName,
-      id,
       emoji,
+      _id,
     },
   });
 };
 
-export const renameListAction = (listName, emoji, id) => (dispatch) => {
+export const renameListAction = (listName, emoji, _id) => (dispatch) => {
   dispatch({
     type: "RENAME_LIST",
-    payload: { emoji, listName, id },
+    payload: { listName, emoji, _id },
   });
 };
 
-export const removeListAction = (id) => (dispatch) => {
+export const removeListAction = (_id) => (dispatch) => {
   dispatch({
     type: "REMOVE_LIST",
     payload: {
-      id,
+      _id,
     },
   });
 };
 
-export const addTickerToListAction = (symbol, id) => (dispatch) => {
+export const addTickerToListAction = (symbol, _id) => (dispatch) => {
   dispatch({
     type: "ADD_TICKER_TO_LIST",
     payload: {
       symbol,
-      id,
+      _id,
     },
   });
 };
 
-export const removeTickerFromListAction = (symbol, id) => (dispatch) => {
+export const removeTickerFromListAction = (symbol, _id) => (dispatch) => {
   dispatch({
     type: "REMOVE_TICKER_FROM_LIST",
     payload: {
       symbol,
-      id,
+      _id,
     },
   });
 };

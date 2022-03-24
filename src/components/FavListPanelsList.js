@@ -11,9 +11,11 @@ import {
 import FavListPanelsTicker from "./FavListPanelsTicker";
 import DeleteList from "./FavList-DeleteList";
 import RenameList from "./FavList-RenameList";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { watchListsFromDB } from "../api";
+import { readWatchList } from "./_crudToMongoDB";
+import axios from "axios";
 
 const FavListPanelsList = ({ list }) => {
   const [showingStocks, setShowingStocks] = useState(true);
@@ -45,34 +47,14 @@ const FavListPanelsList = ({ list }) => {
     setIsDeletingList(true);
   };
 
-  const [listContents, setListContents] = useState([]);
-
-  useEffect(() => {
-    // this method fetch the list's contents from the database
-    const getContents = async () => {
-      const response = await watchListsFromDB;
-      const filterListfromListsToArray = response.data.filter(
-        (state) => state._id === listId
-      );
-      const state = filterListfromListsToArray[0]; // because there's only 1 object in array after filter
-      setListContents(state);
-    };
-    getContents();
-    console.log(listContents);
-  }, [
-    listContents.listName,
-    listContents.emoji,
-    // stateOfCurrentList.tickers.length,
-  ]);
-
   return (
     <div className="list-container">
       <div className="list-header">
-        <Link to={`/lists/${list._id}`} state={listContents}>
+        <Link to={`/lists/${list._id}`} state={list}>
           <div className="list-info">
-            <h4 className="list-emoji">{listContents.emoji}</h4>
+            <h4 className="list-emoji">{list.emoji}</h4>
             <div className="list-name">
-              <h4>{listContents.listName}</h4>
+              <h4>{list.listName}</h4>
             </div>
           </div>
         </Link>

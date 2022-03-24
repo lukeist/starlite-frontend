@@ -8,6 +8,7 @@ import Emojis from "../components/Emojis";
 import axios from "axios";
 import { useLocation, useParams } from "react-router-dom";
 import { starliteAPI } from "../api";
+import { updateWatchListOnListPage } from "./_crudToMongoDB";
 
 const ListHeader = ({
   listId,
@@ -25,53 +26,57 @@ const ListHeader = ({
   const [emojiActive, setEmojiActive] = useState(false);
   const [watchList, setWatchList] = useState(currentList);
 
-  const updateWatchList = (value) => {
+  const editWatchList = (value) => {
     return setWatchList((prev) => {
       return { ...prev, ...value };
     });
   };
   // This will send a post request to update the data in the database.
-  const submitUpdatedWatchListToDB = async () => {
-    const editedList = {
-      ...watchList,
-    };
-    location.state = { ...watchList };
-    try {
-      await axios.post(
-        `${starliteAPI}/update-watchlist/${params.id}`,
-        editedList
-      );
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
+  // const updateWatchListOnListPage = async () => {
+  //   const editedList = {
+  //     ...watchList,
+  //   };
+
+  //   try {
+  //     await axios.post(
+  //       `${starliteAPI}/update-watchlist/${params.id}`,
+  //       editedList
+  //     );
+  //   } catch (error) {
+  //     console.log(error);
+  //     return;
+  //   }
+  // };
   // update currentList's Emoji
-  // const submitNewListViaEmojiHandler = () => {
+  // const onblurupdateWatchListOnListPage = () => {
   //   // currentList.emoji = emoji;
   //   // currentList.listName = listName;
   //   console.log(emoji);
   //   dispatch(renameListAction(listName, emoji, listId));
-  //   // updateWatchList({ emoji }); // from setEmoji in Emojis.js
+  //   // updateWatchListOnListPage({ emoji }); // from setEmoji in Emojis.js
   // };
   const exitPopUpEmoji = (e) => {
     const element = e.target;
     if (element.classList.contains("emoji-shadow")) {
+      const editedWatchList = { ...watchList };
       setEmojiActive(false);
       dispatch(renameListAction(listName, emoji, listId));
-      submitUpdatedWatchListToDB();
-      // submitNewListViaEmojiHandler();
+      // This will send a post request to update the data in the database.
+      updateWatchListOnListPage(params, editedWatchList);
+      // onblurupdateWatchListOnListPage();
     }
   };
 
   // update currentList's listName
   const getInput = (e) => {
     setListName(e.target.value);
-    updateWatchList({ listName: e.target.value });
+    editWatchList({ listName: e.target.value });
   };
-  const submitNewList = (e) => {
+  const onblurupdateWatchListOnListPage = (e) => {
     e.preventDefault();
-    submitUpdatedWatchListToDB();
+    // This will send a post request to update the data in the database.
+    const editedWatchList = { ...watchList };
+    updateWatchListOnListPage(params, editedWatchList);
     dispatch(renameListAction(listName, emoji, listId));
     // currentList.emoji = emoji;
     // currentList.listName = listName;
@@ -93,7 +98,7 @@ const ListHeader = ({
     <div className="list-header">
       <button onClick={() => console.log(watchList)}>sdfasdfasdf</button>
       <form
-        onSubmit={submitNewList}
+        onSubmit={onblurupdateWatchListOnListPage}
         className="listpage-form"
         action=""
         id="form-addlist"
@@ -119,7 +124,7 @@ const ListHeader = ({
               maxLength="68"
               required
               value={listName}
-              onBlur={submitNewList}
+              onBlur={onblurupdateWatchListOnListPage}
             />
             <FontAwesomeIcon
               onClick={() => setCogDelete(true)}
@@ -157,7 +162,7 @@ const ListHeader = ({
         )}
         {emojiActive && (
           <div className="picker-emoji list-emoji">
-            <Emojis setEmoji={setEmoji} updateWatchList={updateWatchList} />
+            <Emojis setEmoji={setEmoji} editWatchList={editWatchList} />
           </div>
         )}
       </form>

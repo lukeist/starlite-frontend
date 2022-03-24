@@ -1,7 +1,7 @@
 const initState = [
   {
     listName: "My First List",
-    id: "my1stlist",
+    _id: "my1stlist",
     emoji: "🌙",
     tickers: [],
   },
@@ -9,28 +9,32 @@ const initState = [
 
 const listReducer = (state = initState, action) => {
   const tickersArray = [];
+
   switch (action.type) {
+    case "GET_WATCHLISTS":
+      state = action.payload;
+      return [...state];
+
     case "CREATE_LIST":
       return [
         ...state,
         {
           listName: action.payload.listName,
-          id: action.payload.id,
           emoji: action.payload.emoji,
+          _id: action.payload._id,
           tickers: tickersArray,
         },
       ];
     case "RENAME_LIST":
-      // const stateWithoutCurrentList = state.filter(
-      //   (list) => list.id !== action.payload.id
-      // );
-      // const currentList = state.filter((list) => list.id === action.payload.id);
-      // currentList.listName = action.payload.listName;
-      // const stateWithNewList = stateWithoutCurrentList.push(currentList);
-      return state;
-    // stateWithNewList;
+      const indexList = state.findIndex(
+        (list) => list._id === action.payload._id
+      );
+      state[indexList].listName = action.payload.listName;
+      state[indexList].emoji = action.payload.emoji;
+      return [...state];
+
     case "REMOVE_LIST":
-      return state.filter((list) => list.id !== action.payload.id);
+      return state.filter((list) => list._id !== action.payload.id);
 
     case "ADD_TICKER_TO_LIST":
       // remove the list out of lists

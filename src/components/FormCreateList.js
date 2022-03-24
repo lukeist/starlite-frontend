@@ -1,4 +1,3 @@
-// import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
@@ -8,25 +7,29 @@ import {
 } from "../store/actions/listAction";
 import Emojis from "./Emojis";
 import { isNotAddingList } from "../store/actions/isAddingListAction";
-import axios from "axios";
-// import { isNotRenamingList } from "../store/actions/isEditingListAction";
+import { useParams } from "react-router-dom";
+import {
+  createWatchList,
+  updateWatchListOnPanel,
+  updateWatchListOnListPage,
+} from "./_crudToMongoDB";
 
+///////////////////////////////////////////////////////////////////////////// THIS COMPONENT IS ACTUALLY FOR creating AND renaming LIST
 const FormCreateList = ({ isRenamingList, setIsRenamingList, list }) => {
-  // const { popupRenamingList } = useSelector(
-  //   (state) => state.utilities.PopUpEditingList
-  // );
   const dispatch = useDispatch();
-  const [listName, setListName] = useState(isRenamingList ? list.listName : ""); //****** list.emoji needed to follow database
-  const [emoji, setEmoji] = useState(isRenamingList ? list.emoji : "🚀"); //****** list.emoji needed to follow database
+  const params = useParams();
+  const [listName, setListName] = useState(isRenamingList ? list.listName : "");
+  const [emoji, setEmoji] = useState(isRenamingList ? list.emoji : "🚀");
+  const [tickers, setTickers] = useState(isRenamingList ? list.tickers : []);
   const [emojiActive, setEmojiActive] = useState(false);
 
   const initialWatchList = {
     listName,
     emoji,
-    tickers: [],
+    tickers,
   };
   const [watchList, setWatchList] = useState(initialWatchList);
-  const updateWatchList = (value) => {
+  const editWatchList = (value) => {
     return setWatchList((prev) => {
       return { ...prev, ...value };
     });
@@ -35,50 +38,28 @@ const FormCreateList = ({ isRenamingList, setIsRenamingList, list }) => {
   const addNewListHandler = async (e) => {
     e.preventDefault();
     dispatch(isNotAddingList());
-    const newWatchList = { ...watchList };
+
     if (isRenamingList) {
-      //****** list.emoji needed to follow database
-      list.emoji = emoji;
-      list.listName = listName;
-      dispatch(renameListAction(listName, emoji, list.id));
-      // dispatch(isNotRenamingList());
+      const editedWatchList = { ...watchList };
+      // update list in db
+      params.id === undefined // this function is used in FavListPanel.js (using params) & List.js (using _id) => on FavListPanel.js: params is undefined
+        ? updateWatchListOnPanel(list._id, editedWatchList)
+        : updateWatchListOnListPage(params, editedWatchList);
+      dispatch(renameListAction(listName, emoji, list._id));
       setIsRenamingList(false);
     } else {
-      // const listId = uuidv4();
-      // dispatch(createListAction(listName, emoji, listId));
-      try {
-        await axios.post(
-          `${process.env.REACT_APP_STARLITE_API}/watchlists/add`,
-          newWatchList
-        );
-      } catch (error) {
-        console.log(error);
-        return;
-      }
+      const listId = uuidv4();
+      dispatch(createListAction(listName, emoji, listId));
+      // When a post request is sent to the create url, we'll add a new watch list to the database.
+      const newWatchList = { ...watchList };
+      createWatchList(newWatchList);
       setWatchList(initialWatchList);
-      // setListName("");
-      // setEmoji("🚀");
     }
   };
 
-  // const addNewListHandler = (e) => {
-  //   e.preventDefault();
-  //   dispatch(isNotAddingList());
-  //   // if RENAME a list or CREATE a new list
-  //   if (isRenamingList) {
-  //     list.emoji = emoji;
-  //     list.listName = listName;
-  //     dispatch(renameListAction(listName, emoji, list.id));
-  //     // dispatch(isNotRenamingList());
-  //     setIsRenamingList(false);
-  //   } else {
-  //     const listId = uuidv4();
-  //     dispatch(createListAction(listName, emoji, listId));
-  //   }
-  // };
   const getInput = (e) => {
     setListName(e.target.value);
-    updateWatchList({ listName: e.target.value });
+    editWatchList({ listName: e.target.value });
   };
   const exitPopUpEmoji = (e) => {
     const element = e.target;
@@ -88,7 +69,6 @@ const FormCreateList = ({ isRenamingList, setIsRenamingList, list }) => {
   };
   const exitPopUpList = () => {
     isRenamingList ? setIsRenamingList(false) : dispatch(isNotAddingList());
-    // setListName(list.listName);
   };
   return (
     <form
@@ -105,7 +85,6 @@ const FormCreateList = ({ isRenamingList, setIsRenamingList, list }) => {
         >
           {emoji}
         </button>
-
         <input
           className="input-name"
           placeholder="List Name"
@@ -136,7 +115,7 @@ const FormCreateList = ({ isRenamingList, setIsRenamingList, list }) => {
       )}
       {emojiActive && (
         <div className="picker-emoji favlistpanel-emoji popuplists-emoji">
-          <Emojis updateWatchList={updateWatchList} setEmoji={setEmoji} />
+          <Emojis editWatchList={editWatchList} setEmoji={setEmoji} />
         </div>
       )}
     </form>

@@ -26,17 +26,17 @@ const Home = () => {
   }, [dispatch]);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////  Automatically add some stocks into 'My First List'
-  const firstIndexInList = 0;
-  const list = useSelector(
-    (state) => state.entities.stockLists[firstIndexInList]
-  );
-  useEffect(() => {
-    if (typeof list !== "undefined") {
-      if (list.tickers.length === 0) {
-        getStocksForMyFirstList(list, dispatch);
-      }
-    }
-  }, []);
+  // const firstIndexInList = 0;
+  // const list = useSelector(
+  //   (state) => state.entities.stockLists[firstIndexInList]
+  // );
+  // useEffect(() => {
+  //   if (typeof list !== "undefined") {
+  //     if (list.tickers.length === 0) {
+  //       getStocksForMyFirstList(list, dispatch);
+  //     }
+  //   }
+  // }, []);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <div className="home">

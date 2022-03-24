@@ -4,26 +4,29 @@ import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import FavListPanelsList from "./FavListPanelsList";
 import { useDispatch } from "react-redux";
 import { isAddingList } from "../store/actions/isAddingListAction";
+import { getWatchListsAction } from "../store/actions/listAction";
 import FormCreateList from "./FormCreateList";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { watchListsFromDB } from "../api";
+import { useNavigate, useParams } from "react-router-dom";
 
 const FavListPanel = () => {
   const dispatch = useDispatch();
-  // const stockLists = useSelector((state) => state.entities.stockLists);
+  const watchListsFromReduxState = useSelector(
+    (state) => state.entities.watchLists
+  );
   const { PopUpAddingList } = useSelector((state) => state.utilities);
-  const [watchLists, setWatchLists] = useState([]);
-  // This method fetches the watch lists from the database.
 
+  // This method fetches the watch lists from the database.
   useEffect(() => {
     const getWatchLists = async () => {
       const response = await watchListsFromDB;
-      setWatchLists(response.data);
+      dispatch(getWatchListsAction(response.data));
     };
     getWatchLists();
     return;
-  }, [watchLists.length]);
+  }, []);
 
   return (
     <div className="fav-list">
@@ -40,7 +43,7 @@ const FavListPanel = () => {
       {PopUpAddingList ? <FormCreateList /> : ""}
 
       <div className="fav-items">
-        {watchLists.map((list) => (
+        {watchListsFromReduxState.map((list) => (
           <FavListPanelsList key={list._id} list={list} />
         ))}
       </div>
