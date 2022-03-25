@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import {
   createListAction,
+  getWatchListsAction,
   renameListAction,
 } from "../store/actions/listAction";
 import Emojis from "./Emojis";
@@ -12,7 +13,10 @@ import {
   createWatchList,
   updateWatchListOnPanel,
   updateWatchListOnListPage,
+  readWatchLists,
 } from "./_crudToMongoDB";
+import axios from "axios";
+import { getWatchLists } from "../api";
 
 ///////////////////////////////////////////////////////////////////////////// THIS COMPONENT IS ACTUALLY FOR creating AND renaming LIST
 const FormCreateList = ({ isRenamingList, setIsRenamingList, list }) => {
@@ -48,11 +52,24 @@ const FormCreateList = ({ isRenamingList, setIsRenamingList, list }) => {
       dispatch(renameListAction(listName, emoji, list._id));
       setIsRenamingList(false);
     } else {
-      const listId = uuidv4();
-      dispatch(createListAction(listName, emoji, listId));
+      //////////////////////////////////// POST the new list to Mongo - then GET all lists from Mongo - then DISPATCH all to REDUX
       // When a post request is sent to the create url, we'll add a new watch list to the database.
       const newWatchList = { ...watchList };
-      createWatchList(newWatchList);
+      try {
+        await axios.post(
+          `${process.env.REACT_APP_STARLITE_API}/watchlists/add`,
+          newWatchList
+        );
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+      // get all lists from the database
+      const response = await axios.get(getWatchLists);
+      const newWatchListsAfterAdding = response.data;
+      // dispatch all lists to current state
+      dispatch(getWatchListsAction(newWatchListsAfterAdding));
+
       setWatchList(initialWatchList);
     }
   };

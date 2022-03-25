@@ -1,33 +1,44 @@
 // import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { removeListAction } from "../store/actions/listAction";
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getWatchLists } from "../api";
+import {
+  getWatchListsAction,
+  removeListAction,
+} from "../store/actions/listAction";
 import { deleteWatchList } from "./_crudToMongoDB";
 
 const DeleteList = ({ setIsDeletingList, list }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const params = useParams();
+  const paramsId = params.id;
 
-  const locationPathnamesLength = location.pathname.length;
-  const locationPathnamesLengthThatNotContainsList = 2;
-  // const startPositionOfListIdInLocationPathname = 7; // for example: location.pathname = /lists/1d9fa494-8a3f-4951-a99b-e3d27576aae9
-  // const listId = location.pathname.slice(
-  //   startPositionOfListIdInLocationPathname
-  // );
-  // const allCurrentLists = useSelector((state) => state.entities.stockLists);
-
-  const deleteListHandler = () => {
-    dispatch(removeListAction(list._id));
-    deleteWatchList(list._id);
+  const deleteListHandler = async () => {
     setIsDeletingList(false);
-    if (locationPathnamesLength > locationPathnamesLengthThatNotContainsList) {
-      navigate("/");
+    // delete the selected list
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_STARLITE_API}/delete-watchlist/${list._id}`
+      );
+    } catch (error) {
+      console.log(error);
+      return;
     }
-    console.log(list._id);
-    // if (allCurrentLists.indexOf(list) < 0) {
-    //   navigate("/");
-    // }
+    // get all lists from the database
+    const response = await axios.get(getWatchLists);
+    const newWatchListsAfterDeleting = response.data;
+    // dispatch all lists to current state
+    dispatch(getWatchListsAction(newWatchListsAfterDeleting));
+
+    // look for current viewing list's index (current active in the browser): if the list is not in the newWatchListsAfterDeleting anymore (index === -1), then navigate back to homepage
+    const indexOfCurrentList = newWatchListsAfterDeleting.findIndex(
+      (currentList) => currentList._id === paramsId
+    );
+    indexOfCurrentList < 0 && navigate("/");
   };
 
   const exitPopUpDeleteList = (e) => {

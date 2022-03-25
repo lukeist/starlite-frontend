@@ -1,11 +1,4 @@
-const initState = [
-  {
-    listName: "My First List",
-    _id: "my1stlist",
-    emoji: "🌙",
-    tickers: [],
-  },
-];
+const initState = [];
 
 const listReducer = (state = initState, action) => {
   const tickersArray = [];
@@ -34,15 +27,15 @@ const listReducer = (state = initState, action) => {
       return [...state];
 
     case "REMOVE_LIST":
-      return state.filter((list) => list._id !== action.payload.id);
+      return state.filter((list) => list._id !== action.payload._id);
 
     case "ADD_TICKER_TO_LIST":
       // remove the list out of lists
       // const stateWithoutCurrentList = state.filter(
-      //   (list) => list.id !== action.payload.id
+      //   (list) => list._id !== action.payload._id
       // );
       // // take the list and modify its tickers
-      // const currentList = state.filter((list) => list.id === action.payload.id);
+      // const currentList = state.filter((list) => list._id === action.payload._id);
       // currentList.tickers = ["111", "222"];
       // return new lists with the modified list inside
       return state;

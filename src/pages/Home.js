@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import News from "../components/News";
 import NewsMain from "../components/NewsMain";
 import FavListPanel from "../components/FavListPanel";
@@ -7,10 +7,13 @@ import { newsAction } from "../store/actions/newsAction";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import getStocksForMyFirstList from "../components/_getStocksForMyFirstList";
+import { getWatchListsAction } from "../store/actions/listAction";
+import { watchListsFromDB } from "../api";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
-
+  const location = useLocation();
   // get data back from state
   const { general, newsActive } = useSelector((state) => state.entities.news);
   const generalWithoutBloomberg = general.filter(
@@ -38,6 +41,28 @@ const Home = () => {
   //   }
   // }, []);
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  useEffect(() => {
+    dispatch(getWatchListsAction());
+  }, [dispatch]);
+
+  // const getWatchLists = async () => {
+  //   const response = await watchListsFromDB;
+  //   dispatch(getWatchListsAction(response.data));
+  //   console.log("from home.js ", response.data);
+  // };
+  // useEffect(() => {
+  //   console.log(location.pathname);
+  //   const isLoaded = false;
+  //   if (!isLoaded) {
+  //     getWatchLists();
+  //     return;
+  //   }
+  //   return () => {
+  //     isLoaded = true;
+  //   };
+  // }, [dispatch]);
+
   return (
     <div className="home">
       {newsActive ? (

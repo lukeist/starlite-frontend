@@ -39,6 +39,14 @@ export const readWatchList = async (id) => {
   return response.data;
 };
 
+export const readWatchLists = async () => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_STARLITE_API}/watchlists/`
+  );
+
+  return response.data;
+};
+
 export const deleteWatchList = async (id) => {
   await axios.delete(
     `${process.env.REACT_APP_STARLITE_API}/delete-watchlist/${id}`

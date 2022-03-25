@@ -124,6 +124,7 @@ export const symbolLookupData = (terms) =>
 
 //////////////////////////////////////////////////////// DATA FROM STARLITE BACKEND MONGODB
 export const starliteAPI = process.env.REACT_APP_STARLITE_API;
-export const watchListsFromDB = axios.get(
-  `${process.env.REACT_APP_STARLITE_API}/watchlists/`
-);
+export const getWatchLists = `${process.env.REACT_APP_STARLITE_API}/watchlists/`;
+export const postWatchList = `${process.env.REACT_APP_STARLITE_API}/watchlists/add`;
+export const deleteWatchList = (id) =>
+  `${process.env.REACT_APP_STARLITE_API}/delete-watchlist/${id}`;

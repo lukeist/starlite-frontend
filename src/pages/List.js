@@ -12,7 +12,8 @@ import ListHeader from "../components/List-Header";
 import { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
-import { watchListsFromDB } from "../api";
+import { getWatchLists, watchListsFromDB } from "../api";
+import axios from "axios";
 
 const List = () => {
   // get currentList from props of FavListPanelsList.js when click on <Link>
@@ -21,7 +22,7 @@ const List = () => {
   const listId = params.id;
   // const currentList = location.state;
 
-  // // const { stockLists } = useSelector((state) => state.entities);
+  // const { watchLists } = useSelector((state) => state.entities);
 
   const firstListInArrayIndex = 0;
   const [currentList, setCurrentList] = useState(
@@ -40,7 +41,8 @@ const List = () => {
   useEffect(() => {
     // useEffect only when pathname has /lists/xxx, not /stocks/xxx or anything else
     const getStateOfCurrentList = async () => {
-      const response = await watchListsFromDB;
+      const response = await axios.get(getWatchLists);
+
       const filterListfromListsToArray = response.data.filter(
         (list) => list._id === listId
       );
@@ -53,7 +55,7 @@ const List = () => {
 
     if (location.pathname.includes("lists")) {
       getStateOfCurrentList();
-      console.log(location);
+      // console.log(location);
       return;
     }
   }, [location.pathname]);

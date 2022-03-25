@@ -1,4 +1,9 @@
-export const getWatchListsAction = (list) => (dispatch) => {
+import axios from "axios";
+import { getWatchLists } from "../../api";
+
+export const getWatchListsAction = () => async (dispatch) => {
+  const response = await axios.get(getWatchLists);
+  const list = response.data;
   dispatch({
     type: "GET_WATCHLISTS",
     payload: list,

@@ -13,20 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const FavListPanel = () => {
   const dispatch = useDispatch();
-  const watchListsFromReduxState = useSelector(
-    (state) => state.entities.watchLists
-  );
   const { PopUpAddingList } = useSelector((state) => state.utilities);
-
-  // This method fetches the watch lists from the database.
-  useEffect(() => {
-    const getWatchLists = async () => {
-      const response = await watchListsFromDB;
-      dispatch(getWatchListsAction(response.data));
-    };
-    getWatchLists();
-    return;
-  }, []);
+  const watchLists = useSelector((state) => state.entities.watchLists);
 
   return (
     <div className="fav-list">
@@ -43,7 +31,7 @@ const FavListPanel = () => {
       {PopUpAddingList ? <FormCreateList /> : ""}
 
       <div className="fav-items">
-        {watchListsFromReduxState.map((list) => (
+        {watchLists.map((list) => (
           <FavListPanelsList key={list._id} list={list} />
         ))}
       </div>
