@@ -2,6 +2,7 @@ const initState = [];
 
 const listReducer = (state = initState, action) => {
   const tickersArray = [];
+  const listActiveOnListPage = false;
 
   switch (action.type) {
     case "GET_WATCHLISTS":
@@ -16,6 +17,7 @@ const listReducer = (state = initState, action) => {
           emoji: action.payload.emoji,
           _id: action.payload._id,
           tickers: tickersArray,
+          // listActiveOnListPage,
         },
       ];
     case "RENAME_LIST":

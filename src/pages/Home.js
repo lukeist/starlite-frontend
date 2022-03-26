@@ -23,45 +23,12 @@ const Home = () => {
   const firstIndexOfGeneralNews = 0;
   const secondIndexOfGeneralNews = 1;
   const eighthIndexOfGeneralNews = 7;
-  ///////////////////////////////////////////////////////  Automatically fetch news /////////////////////////
+  ///////////////////////////////////////////////////////  Automatically fetch news & all watch lists /////////////////////////
   useEffect(() => {
     dispatch(newsAction());
-  }, [dispatch]);
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////  Automatically add some stocks into 'My First List'
-  // const firstIndexInList = 0;
-  // const list = useSelector(
-  //   (state) => state.entities.stockLists[firstIndexInList]
-  // );
-  // useEffect(() => {
-  //   if (typeof list !== "undefined") {
-  //     if (list.tickers.length === 0) {
-  //       getStocksForMyFirstList(list, dispatch);
-  //     }
-  //   }
-  // }, []);
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  useEffect(() => {
     dispatch(getWatchListsAction());
   }, [dispatch]);
-
-  // const getWatchLists = async () => {
-  //   const response = await watchListsFromDB;
-  //   dispatch(getWatchListsAction(response.data));
-  //   console.log("from home.js ", response.data);
-  // };
-  // useEffect(() => {
-  //   console.log(location.pathname);
-  //   const isLoaded = false;
-  //   if (!isLoaded) {
-  //     getWatchLists();
-  //     return;
-  //   }
-  //   return () => {
-  //     isLoaded = true;
-  //   };
-  // }, [dispatch]);
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <div className="home">

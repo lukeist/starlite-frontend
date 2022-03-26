@@ -5,6 +5,7 @@ import newsReducer from "./reducers/newsReducer";
 import searchReducer from "./reducers/searchReducer";
 import stocksReducer from "./reducers/stocksReducer";
 import currentPriceStreamingReducer from "./reducers/currentPriceStreamingReducer";
+import getWatchListFromParamsReducer from "./reducers/getWatchListFromParamsReducer";
 
 const entitiesReducer = combineReducers({
   streaming: currentPriceStreamingReducer,
@@ -12,6 +13,7 @@ const entitiesReducer = combineReducers({
   news: newsReducer,
   stock: stocksReducer,
   stockFavorites: favReducer,
+  tempWatchListFromParams: getWatchListFromParamsReducer,
   watchLists: listReducer,
 });
 

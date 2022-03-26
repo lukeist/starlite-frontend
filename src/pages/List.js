@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import {
   TableOfStock,
@@ -14,21 +14,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import { getWatchLists, watchListsFromDB } from "../api";
 import axios from "axios";
+import { getWatchListsAction } from "../store/actions/listAction";
+import { getWatchListFromParamsAction } from "../store/actions/getWatchListFromParamsAction";
 
 const List = () => {
   // get currentList from props of FavListPanelsList.js when click on <Link>
+  const watchLists = useSelector((state) => state.entities.watchLists);
+  const tempWatchListFromParams = useSelector(
+    (state) => state.entities.tempWatchListFromParams
+  );
   const location = useLocation();
+  const dispatch = useDispatch();
   const params = useParams();
   const listId = params.id;
+
   // const currentList = location.state;
 
   // const { watchLists } = useSelector((state) => state.entities);
 
   const firstListInArrayIndex = 0;
-  const [currentList, setCurrentList] = useState(
-    // filterListfromListsToArray[firstListInArrayIndex]
-    location.state
+  const filterListfromListsinReduxState = watchLists.filter(
+    (list) => list._id === listId
   );
+  const watchList = filterListfromListsinReduxState[firstListInArrayIndex]; //because filter return [{watchlist}]
+  const [currentList, setCurrentList] = useState(tempWatchListFromParams);
   // const listId = currentList._id;
 
   const [listName, setListName] = useState(currentList.listName);
@@ -37,33 +46,40 @@ const List = () => {
   const [popupAfterDeleteStock, setPopupAfterDeleteStock] = useState(false);
   const [stockInPopupAfterDeleteStock, setStockInPopupAfterDeleteStock] =
     useState("");
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // function to be used in 2 scenario: 1. click on lists panel & 2. enter id to browser path
+  const getCurrentWatchList = async () => {
+    const response = await axios.get(getWatchLists);
+    const filterListfromLists = response.data.filter(
+      (list) => list._id === listId
+    );
+    const watchList = filterListfromLists[firstListInArrayIndex]; // because there's only 1 object in array after filter
+    dispatch(getWatchListsAction());
+    console.log("this ");
+    setCurrentList(watchList);
+    setListName(watchList.listName);
+    setEmoji(watchList.emoji);
+  };
+  ////////////////////////////////////////////////////////////////////////////////
   //////////////// SET CURRENT LIST WHEN CLICK ON LIST PANEL's ITEM on LIST PAGE
+  // reload the watch list from database whenever enter the path in browser
+
   useEffect(() => {
     // useEffect only when pathname has /lists/xxx, not /stocks/xxx or anything else
-    const getStateOfCurrentList = async () => {
-      const response = await axios.get(getWatchLists);
-
-      const filterListfromListsToArray = response.data.filter(
-        (list) => list._id === listId
-      );
-      const listFromBrowser = filterListfromListsToArray[firstListInArrayIndex]; // because there's only 1 object in array after filter
-
-      setCurrentList(listFromBrowser);
-      setListName(listFromBrowser.listName);
-      setEmoji(listFromBrowser.emoji);
-    };
-
     if (location.pathname.includes("lists")) {
-      getStateOfCurrentList();
-      // console.log(location);
+      getCurrentWatchList();
+      dispatch(getWatchListFromParamsAction(params.id));
       return;
     }
   }, [location.pathname]);
 
   ////////////////////////////////////////////////////////////////////////////////
-  // DO NOT CHANGE
+  ////////////////////////////////////////////////////////////////////////////////
+  // DO NOT CHANGE////////////////////////////////////////////////////////////////////////////////
   //////////////// ANIMATE THE HEADER WHEN SCROLL TO A CERTAIN POINT https://stackoverflow.com/questions/32856341/pure-js-add-and-remove-toggle-class-after-scrolling-x-amount/32856377
   //////////////// https://stackoverflow.com/questions/56541342/react-hooks-why-is-current-null-for-useref-hook
+  ////////////////////////////////////////////////////////////////////////////////
   const headerRef = useRef(null);
   const [refVisible, setRefVisible] = useState(false);
   const headerClassName = headerRef.current;
@@ -87,91 +103,102 @@ const List = () => {
 
   return (
     <div className="home">
-      {/* {stockActive ? ( */}
-      <div className="home-body">
-        <div className="list-body">
-          <div
-            className="header-main"
-            id="header-main"
-            ref={(element) => {
-              headerRef.current = element;
-              setRefVisible(!!element);
-            }}
-          >
-            <ListHeader
-              listId={listId}
-              currentList={currentList}
-              emoji={emoji}
-              setEmoji={setEmoji}
-              listName={listName}
-              setListName={setListName}
-              setIsDeletingList={setIsDeletingList}
-            />
-          </div>
+      {!("active" in currentList) ? (
+        <div className="home-body">
+          <div className="list-body">
+            <div
+              className="header-main"
+              id="header-main"
+              ref={(element) => {
+                headerRef.current = element;
+                setRefVisible(!!element);
+              }}
+            >
+              <button
+                onClick={() =>
+                  console.log(
+                    watchList
+                    // params,
+                    // location.pathname
+                  )
+                }
+              >
+                sadf;askldjfasd
+              </button>
+              <ListHeader
+                listId={listId}
+                currentList={currentList}
+                emoji={emoji}
+                setEmoji={setEmoji}
+                listName={listName}
+                setListName={setListName}
+                setIsDeletingList={setIsDeletingList}
+              />
+            </div>
 
-          <div className="header-sticky">
-            <ListHeader
-              listId={listId}
-              currentList={currentList}
-              emoji={emoji}
-              setEmoji={setEmoji}
-              listName={listName}
-              setListName={setListName}
-              setIsDeletingList={setIsDeletingList}
-            />
+            <div className="header-sticky">
+              <ListHeader
+                listId={listId}
+                currentList={currentList}
+                emoji={emoji}
+                setEmoji={setEmoji}
+                listName={listName}
+                setListName={setListName}
+                setIsDeletingList={setIsDeletingList}
+              />
+            </div>
+            {currentList.tickers.length > 0 && (
+              <div className="table-row">
+                <TableofStockHeader />
+                {currentList.tickers.map((stock) => (
+                  <TableOfStock
+                    key={stock.symbol}
+                    stock={stock}
+                    currentList={currentList}
+                    setPopupAfterDeleteStock={setPopupAfterDeleteStock}
+                    setStockInPopupAfterDeleteStock={
+                      setStockInPopupAfterDeleteStock
+                    }
+                  />
+                ))}
+              </div>
+            )}
           </div>
-          {currentList.tickers.length > 0 && (
-            <div className="table-row">
-              <TableofStockHeader />
-              {currentList.tickers.map((stock) => (
-                <TableOfStock
-                  key={stock.symbol}
-                  stock={stock}
-                  currentList={currentList}
-                  setPopupAfterDeleteStock={setPopupAfterDeleteStock}
-                  setStockInPopupAfterDeleteStock={
-                    setStockInPopupAfterDeleteStock
-                  }
-                />
-              ))}
+          <div className="fav-container">
+            <FavListPanel />
+          </div>
+          {/* delete list alert / confirmation */}
+          {isDeletingList && (
+            <DeleteList
+              setIsDeletingList={setIsDeletingList}
+              list={currentList}
+            />
+          )}
+          {popupAfterDeleteStock && (
+            <div className="list-page-popup-after-remove-stock">
+              <span>
+                {stockInPopupAfterDeleteStock} was removed from "
+                {currentList.listName}"
+              </span>{" "}
+              <FontAwesomeIcon
+                onClick={() => setPopupAfterDeleteStock(false)}
+                className="exit-icon"
+                icon={faWindowClose}
+                alt="Remove Stonk From List"
+              />
             </div>
           )}
         </div>
-        <div className="fav-container">
-          <FavListPanel />
-        </div>
-        {/* delete list alert / confirmation */}
-        {isDeletingList && (
-          <DeleteList
-            setIsDeletingList={setIsDeletingList}
-            list={currentList}
-          />
-        )}
-        {popupAfterDeleteStock && (
-          <div className="list-page-popup-after-remove-stock">
-            <span>
-              {stockInPopupAfterDeleteStock} was removed from "
-              {currentList.listName}"
-            </span>{" "}
-            <FontAwesomeIcon
-              onClick={() => setPopupAfterDeleteStock(false)}
-              className="exit-icon"
-              icon={faWindowClose}
-              alt="Remove Stonk From List"
-            />
-          </div>
-        )}
-      </div>
-      {/* ) : (
-        <div>
-          <div class="blobs">
-            <div class="blob-center"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
+      ) : (
+        <div className="blobs-loading">
+          <div className="blobs">
+            <div className="blob-center"></div>
+            <div className="blob"></div>
+            <div className="blob"></div>
+            <div className="blob"></div>
+            <div className="blob"></div>
+            <div className="blob"></div>
+            <div className="blob"></div>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
             <defs>
@@ -192,7 +219,7 @@ const List = () => {
             </defs>
           </svg>
         </div>
-      )} */}
+      )}
     </div>
   );
 };

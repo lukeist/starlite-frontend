@@ -48,38 +48,6 @@ const Stock = () => {
       return;
     }
   }, [location]);
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // //////////////// stop body Scrolling when the popup is open => use effect run only when a state becomes false
-  // // WHY BODY MOVE TO THE RIGHT???????????????????
-  // useEffect(() => {
-  //   if (!PopUpFavLists) {
-  //     document.body.style.overflow = "auto";
-  //     document.body.style.paddingRight = "0rem";
-  //     // document.getElementById("nav").style.paddingRight = "0rem";
-  //   }
-  //   if (PopUpFavLists) {
-  //     document.body.style.overflow = "hidden";
-  //     document.body.style.paddingRight = "0.4rem";
-  //     // document.body.style.paddingRight = "15rem";
-  //     // document.getElementById("nav").style.paddingRight = "5rem";
-  //   }
-  // }, [PopUpFavLists]);
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  // // Connection opened -> Subscribe
-  // const tesssst = socket.addEventListener("open", function (event) {
-  //   socket.send(JSON.stringify({ type: "subscribe", symbol: "AAPL" }));
-  //   console.log("open", event.data);
-  // });
-  // // Listen for messages
-  // const testtt = socket.addEventListener("message", function (event) {
-  //   console.log("Message from server ", event);
-  // });
-
-  // // Unsubscribe
-  // var unsubscribe = function (symbol) {
-  //   socket.send(JSON.stringify({ type: "unsubscribe", symbol: symbol }));
-  // };
 
   const [popupAfterTrade, setPopupAfterTrade] = useState(false);
   const { tradeMessages } = useSelector((state) => state.messages);
