@@ -7,6 +7,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { removeTickerFromListAction } from "../store/actions/listAction";
+import axios from "axios";
+import { updateWatchListTickers } from "../api";
 
 export const TableofStockHeader = () => {
   return (
@@ -40,12 +42,29 @@ export const TableOfStock = ({
 }) => {
   const dispacht = useDispatch();
 
-  const removeStockFromList = () => {
+  const removeStockFromList = async () => {
     // another solution (PopUpAddedList.js) but gotto find index of current ticker: currentList.tickers.splice(indexOfCurrentTicker, 1);
     currentList.tickers = currentList.tickers.filter(
       (stockInCurrentList) => stockInCurrentList.symbol !== stock.symbol
     );
-    dispacht(removeTickerFromListAction(stock.symbol, currentList.id));
+
+    const listWithTickers = {
+      tickers: currentList.tickers,
+    };
+    dispacht(removeTickerFromListAction(stock.symbol, currentList._id));
+
+    console.log(currentList.tickers, listWithTickers);
+    //// update tickers after removing ticker with splice above
+    try {
+      await axios.post(
+        `${updateWatchListTickers}/${currentList._id}`,
+        listWithTickers
+      );
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+
     setPopupAfterDeleteStock(true);
     setStockInPopupAfterDeleteStock(stock.symbol);
     setTimeout(() => {

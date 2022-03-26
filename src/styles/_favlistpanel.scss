@@ -14,7 +14,6 @@
     z-index: 999; // this z-index > nav's z-index for popup to appear above nav
 
     .fav-list {
-      // position: sticky; ///// solution 1
       position: fixed;
       top: 5rem;
       bottom: 2rem;
@@ -26,14 +25,14 @@
       &::-webkit-scrollbar {
         display: none;
       }
-      // transform: translate(-50%, 0);
-      // margin-left: auto;
-      // margin-right: auto;
+      transition: $transition-all-ease;
       background-color: $color-dark-hover;
       border-radius: 0.3rem;
-      box-shadow: $color-dark-boxshadow;
       border: 1px solid $color-dark-outline;
       width: 276px;
+    }
+    .fav-list:hover {
+      box-shadow: $color-dark-boxshadow;
     }
   }
   .fav-header {

@@ -24,12 +24,15 @@
   .trade-panel {
     background-color: $color-dark-hover;
     border-radius: 0.3rem;
-    box-shadow: $color-dark-boxshadow;
     border: 1px solid $color-dark-outline;
     width: 276px;
     h4 {
       padding: 1rem 1.5rem;
     }
+    transition: $transition-all-ease;
+  }
+  .trade-panel:hover {
+    box-shadow: $color-dark-boxshadow;
   }
   .trade-items {
     margin-top: 2rem;

@@ -150,12 +150,14 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: $transition-all-ease;
     .list-name {
       padding-left: 1rem;
     }
   }
   .lists-button:hover {
-    background-color: $color-dark-hover;
+    background-color: $color-dark-background;
+    border-radius: 0.3rem;
   }
   .check-icon {
     font-size: 150%;

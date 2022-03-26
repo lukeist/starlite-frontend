@@ -9,10 +9,12 @@ import {
   isAddingList,
   isNotAddingList,
 } from "../store/actions/isAddingListAction";
+import { useEffect } from "react";
+import { getWatchListsAction } from "../store/actions/listAction";
 
 const PopUpLists = ({ quote, company }) => {
   const { PopUpAddingList } = useSelector((state) => state.utilities);
-  const stockLists = useSelector((state) => state.entities.stockLists);
+  const watchLists = useSelector((state) => state.entities.watchLists);
 
   const dispatch = useDispatch();
 
@@ -29,6 +31,11 @@ const PopUpLists = ({ quote, company }) => {
     dispatch(hidePopUpAction());
     dispatch(isNotAddingList());
   };
+
+  useEffect(() => {
+    dispatch(getWatchListsAction());
+  }, [dispatch]);
+
   return (
     <div className="popuplists-container">
       <div onClick={exitPopUpLists} className="popup-shadow"></div>
@@ -70,9 +77,9 @@ const PopUpLists = ({ quote, company }) => {
           )}
           <div className="lists-container addtolist-list">
             <ul>
-              {stockLists.map((list) => (
+              {watchLists.map((list) => (
                 <PopUpAddedList
-                  key={list.id}
+                  key={list._id}
                   list={list}
                   quote={quote}
                   company={company}

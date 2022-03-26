@@ -126,5 +126,8 @@ export const symbolLookupData = (terms) =>
 export const starliteAPI = process.env.REACT_APP_STARLITE_API;
 export const getWatchLists = `${process.env.REACT_APP_STARLITE_API}/watchlists/`;
 export const postWatchList = `${process.env.REACT_APP_STARLITE_API}/watchlists/add`;
+export const updateWatchList = `${process.env.REACT_APP_STARLITE_API}/update-watchlist`;
+export const updateWatchListTickers = `${process.env.REACT_APP_STARLITE_API}/update-watchlist-tickers`;
+
 export const deleteWatchList = (id) =>
   `${process.env.REACT_APP_STARLITE_API}/delete-watchlist/${id}`;
