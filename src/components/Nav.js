@@ -50,7 +50,7 @@ const Nav = () => {
     <nav id="nav" className="nav">
       {/* <div className="logo-container"> */}
       <Link className="logo" onClick={resetActive} id="logo" to="/">
-        Starlite
+        moonlite
       </Link>
       {/* </div> */}
       {/* <button onClick={() => console.log(searchResult.slice(0, 6))}>
