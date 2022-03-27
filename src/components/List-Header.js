@@ -96,7 +96,6 @@ const ListHeader = ({
 
   return (
     <div className="list-header">
-      <button onClick={() => console.log(watchList)}>sdfasdfasdf</button>
       <form
         onSubmit={onblurupdateWatchListOnListPage}
         className="listpage-form"

@@ -90,12 +90,29 @@ const FavListPanelsTicker = ({ stock }) => {
           className="fav-stock"
         >
           <li className="fav-symbol">{symbol}</li>
-          <li
-            className={`fav-graph ${
-              stockPercentChange > 0 ? "stonk-up-graph" : "stonk-down-graph"
-            }`}
-          >
-            {stockPriceChange < 0 ? (
+          <li>
+            <dt
+              className={`fav-graph ${
+                stockPercentChange > 0 ? "stonk-up-graph" : "stonk-down-graph"
+              }`}
+            >
+              {stockPriceChange < 0 ? (
+                <span>
+                  {stockPriceChange.toString().slice(0, 1) +
+                    "$" +
+                    stockPriceChange.toString().slice(1)}
+                </span>
+              ) : (
+                <span>+${stockPriceChange}</span>
+              )}
+            </dt>
+            {stockPercentChange < 0 ? (
+              <dd className="fav-current-percent">{stockPercentChange}%</dd>
+            ) : (
+              <dd className="fav-current-percent">+{stockPercentChange}%</dd>
+            )}
+
+            {/* {stockPriceChange < 0 ? (
               <span>
                 {stockPriceChange.toString().slice(0, 1) +
                   "$" +
@@ -103,16 +120,24 @@ const FavListPanelsTicker = ({ stock }) => {
               </span>
             ) : (
               <span>+${stockPriceChange}</span>
-            )}
+            )} */}
           </li>
           <li className="fav-quote">
             {/* <dt>${stockPrice}</dt>  FOR WHEN USING SOCKET*/}
-            <dt>${stockCurrentPrice}</dt>
-            {stockPercentChange < 0 ? (
+            <dt
+              className={`fav-current-price ${
+                stockPercentChange > 0
+                  ? "stonk-up-padding"
+                  : "stonk-down-padding"
+              }`}
+            >
+              ${stockCurrentPrice}
+            </dt>
+            {/* {stockPercentChange < 0 ? (
               <dd className="stonk-down">{stockPercentChange}%</dd>
             ) : (
               <dd className="stonk-up">+{stockPercentChange}%</dd>
-            )}
+            )} */}
           </li>
         </ul>
       </div>

@@ -138,7 +138,7 @@
     }
     .fav-graph {
       text-align: right;
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: 800;
     }
     .stonk-down-graph {
@@ -149,6 +149,26 @@
       color: $color-stonkup-third;
     }
 
+    .fav-current-percent {
+      text-align: right;
+      color: $color-dark-text-last;
+    }
+
+    .fav-current-price {
+      color: $color-dark-hover;
+      padding: 0.1rem 0.3rem 0.1rem 0;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 0.3rem;
+    }
+
+    .stonk-up-padding {
+      background-color: $color-stonkup-mid;
+    }
+
+    .stonk-down-padding {
+      background-color: $color-stonkdown-mid;
+    }
     .fav-quote {
       width: 30%;
       padding: 0.5rem 0rem;

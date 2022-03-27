@@ -82,6 +82,7 @@ const List = () => {
   ////////////////////////////////////////////////////////////////////////////////
   const headerRef = useRef(null);
   const [refVisible, setRefVisible] = useState(false);
+
   const headerClassName = headerRef.current;
   const add_class_on_scroll = () => {
     headerClassName.classList.value = "header-main header-main-animate-scroll";
@@ -89,6 +90,7 @@ const List = () => {
   const remove_class_on_scroll = () => {
     headerClassName.classList.value = "header-main";
   };
+
   window.addEventListener("scroll", () => {
     const scrollpos = window.pageYOffset;
     if (refVisible) {
@@ -114,17 +116,6 @@ const List = () => {
                 setRefVisible(!!element);
               }}
             >
-              <button
-                onClick={() =>
-                  console.log(
-                    watchList
-                    // params,
-                    // location.pathname
-                  )
-                }
-              >
-                sadf;askldjfasd
-              </button>
               <ListHeader
                 listId={listId}
                 currentList={currentList}
