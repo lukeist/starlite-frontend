@@ -13,6 +13,7 @@ const PopUpAddedList = ({ company, list, quote }) => {
   const companyName = company.name;
   const stockCurrentPrice = quote.c;
   const stockPercentChange = decimalConverter(quote.dp, 100);
+  const stockPriceChange = decimalConverter(quote.d, 100);
   const marketCap = companyMarketCap(company);
 
   const stock = {
@@ -20,6 +21,7 @@ const PopUpAddedList = ({ company, list, quote }) => {
     symbol: company.ticker,
     stockCurrentPrice,
     stockPercentChange,
+    stockPriceChange,
     marketCap,
     quoteStreaming: 0,
   };

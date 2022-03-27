@@ -18,6 +18,9 @@ const FavListPanelsTicker = ({ stock }) => {
     decimalConverter(stock.stockCurrentPrice, 100)
   );
   const stockPercentChange = decimalConverter(stock.stockPercentChange, 100);
+  const stockPriceChange = stock.stockPriceChange;
+  // decimalConverter(quote.d, 100);
+
   // const [currentPrice, setCurrentPrice] = useState(0);
 
   // const thisBlock = streaming.filter((item) => item.symbol === symbol);
@@ -88,13 +91,19 @@ const FavListPanelsTicker = ({ stock }) => {
         >
           <li className="fav-symbol">{symbol}</li>
           <li
-            className={
-              stockPercentChange > 0
-                ? "fav-graph stonk-up"
-                : "fav-graph stonk-down"
-            }
+            className={`fav-graph ${
+              stockPercentChange > 0 ? "stonk-up-graph" : "stonk-down-graph"
+            }`}
           >
-            Fancy Graphs
+            {stockPriceChange < 0 ? (
+              <span>
+                {stockPriceChange.toString().slice(0, 1) +
+                  "$" +
+                  stockPriceChange.toString().slice(1)}
+              </span>
+            ) : (
+              <span>+${stockPriceChange}</span>
+            )}
           </li>
           <li className="fav-quote">
             {/* <dt>${stockPrice}</dt>  FOR WHEN USING SOCKET*/}
