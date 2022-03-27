@@ -125,10 +125,10 @@ const Nav = () => {
           </Link>
         </li>{" "}
       </ul>
-      <div className="toggle-switch-mode">
+      {/* <div className="toggle-switch-mode">
         <input type="checkbox" id="time" />
         <label htmlFor="time">Night</label>
-      </div>
+      </div> */}
     </nav>
   );
 };

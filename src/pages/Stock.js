@@ -84,7 +84,7 @@ const Stock = () => {
                   <span>
                     {stockPriceChange.toString().slice(0, 1) +
                       "$" +
-                      stockPriceChange.toString().slice(1)}
+                      stockPriceChange.toString().slice(1)}{" "}
                     ({stockPercentChange}
                     %)
                   </span>
