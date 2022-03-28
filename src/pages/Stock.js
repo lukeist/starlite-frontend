@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import decimalConverter from "../components/_getDecimal";
 import { api_key_websocket } from "../api";
+import numberWithCommas from "../components/_getCommasAsThousandsSeparators ";
 
 const Stock = () => {
   const { company, quote, companyNews, stockActive } = useSelector(
