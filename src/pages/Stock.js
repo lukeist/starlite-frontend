@@ -21,7 +21,7 @@ const Stock = () => {
   // Market Cap display
   const { PopUpFavLists } = useSelector((state) => state.utilities);
 
-  const stockCurrentPrice = decimalConverter(quote.c, 100);
+  const stockCurrentPrice = numberWithCommas(decimalConverter(quote.c, 100));
   const stockPriceChange = decimalConverter(quote.d, 100);
   // doesn't work because stock hasn't loaded yet
   // const stockPriceChangeWithDollarSignInTheMiddle =
@@ -140,7 +140,10 @@ const Stock = () => {
                 >
                   {stockPrice.current === 0
                     ? "$" + stockCurrentPrice
-                    : "$" + decimalConverter(stockPrice.current, 100)}
+                    : "$" +
+                      numberWithCommas(
+                        decimalConverter(stockPrice.current, 100)
+                      )}
 
                   {/* //****************************** // use this when not using websocket */}
                   {/* ${stockCurrentPrice} */}
