@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import News from "../components/News";
 import NewsMain from "../components/NewsMain";
 import FavListPanel from "../components/FavListPanel";
@@ -6,14 +6,10 @@ import { newsAction } from "../store/actions/newsAction";
 // import { useLocation } from "react-router";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import getStocksForMyFirstList from "../components/_getStocksForMyFirstList";
 import { getWatchListsAction } from "../store/actions/listAction";
-import { watchListsFromDB } from "../api";
-import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
   // get data back from state
   const { general, newsActive } = useSelector((state) => state.entities.news);
   const generalWithoutBloomberg = general.filter(

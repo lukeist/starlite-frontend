@@ -12,6 +12,7 @@ import Message from "../components/Messages-Message";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import decimalConverter from "../components/_getDecimal";
+import { api_key_websocket } from "../api";
 
 const Stock = () => {
   const { company, quote, companyNews, stockActive } = useSelector(
@@ -53,6 +54,67 @@ const Stock = () => {
   const { tradeMessages } = useSelector((state) => state.messages);
   const firstIndexOfTradeMessages = 0;
   const notificationMessage = tradeMessages[firstIndexOfTradeMessages];
+
+  ////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////// WEB SOCKET
+  ////////////////////////////////////////////////////////////////
+  const symbol = company.ticker;
+  // const symbol = "BINANCE:BTCUSDT";
+
+  const iniState = { current: 0 };
+  const [stockPrice, setStockPrice] = useState(iniState);
+  useEffect(() => {
+    console.log("MOUNTING");
+    const socket = new WebSocket(`wss://ws.finnhub.io${api_key_websocket}`);
+    // Connection opened -> Subscribe
+    socket.addEventListener("open", function (event) {
+      socket.send(JSON.stringify({ type: "subscribe", symbol }));
+      console.log("OPENED");
+    });
+
+    // Listen for messages
+    socket.addEventListener("message", function (event) {
+      const resJSON = JSON.parse(event.data);
+      const dataAtFirstIndex = resJSON.data;
+
+      let price;
+      dataAtFirstIndex === undefined
+        ? (price = stockCurrentPrice)
+        : (price = resJSON?.data[0].p);
+
+      // console.log(resJSON);
+      console.log(price);
+      if (!resJSON) {
+        console.log("invalid data");
+        return;
+      }
+      if (!resJSON.data) {
+        price = stockCurrentPrice;
+        console.log("no data received, might have been only a ping");
+        return;
+      }
+      // take first entry of received data to show that it works
+
+      // const updateChunk = resJSON.data.map(
+      //   (d) =>
+      //     `symbol: ${d?.s}, price: ${d?.p}, amount: ${d?.v}, time: ${new Date(
+      //       d?.t
+      //     ).toLocaleTimeString()}`
+      // );
+      // setStockPrice((prevSP) => [...prevSP, ...updateChunk]);
+
+      if (price === undefined) {
+        setStockPrice((prev) => {
+          return { ...prev, ...{ current: stockCurrentPrice } };
+        });
+      } else {
+        setStockPrice((prev) => {
+          return { ...prev, ...{ current: price } };
+        });
+      }
+    });
+  }, []);
+  ////////////////////////////////////////////////////////////////
   return (
     <div className="home">
       {PopUpFavLists ? <PopUpLists quote={quote} company={company} /> : ""}
@@ -76,7 +138,13 @@ const Stock = () => {
                       : "quote-current stonk-down"
                   }
                 >
-                  ${stockCurrentPrice}
+                  {stockPrice.current === 0
+                    ? "$" + stockCurrentPrice
+                    : "$" + decimalConverter(stockPrice.current, 100)}
+
+                  {/* //****************************** // use this when not using websocket */}
+                  {/* ${stockCurrentPrice} */}
+                  {/* {stockPrice.current} */}
                 </h1>
               </div>
               <p className="quote-change">
