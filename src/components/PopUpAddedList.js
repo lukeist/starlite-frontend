@@ -63,6 +63,13 @@ const PopUpAddedList = ({ company, watchList, quote }) => {
     } else {
       watchList.tickers.push(stock);
       dispatch(addTickerToListAction(stock, listId));
+      // delete // stockCurrentPrice, stockPercentChange,stockPriceChange, stockPreviousClose BEFORE adding tickers back to database
+      for (let i of listWithTickers.tickers) {
+        delete i.stockCurrentPrice;
+        delete i.stockPercentChange;
+        delete i.stockPriceChange;
+        delete i.stockPreviousClose;
+      }
       // use this to CREATE ticker in database
       //// update new ticker - to watch list
       try {
