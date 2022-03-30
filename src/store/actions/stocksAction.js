@@ -19,7 +19,7 @@ export const stocksAction = (symbol) => async (dispatch) => {
   dispatch({
     type: "FETCH_STOCKS",
     payload: {
-      company: company.data,
+      company: company.data === undefined ? symbol : company.data,
       quote: quote.data,
       basicFinancials: basicFinancials.data.metric,
       companyNews: companyNews7Days.data,

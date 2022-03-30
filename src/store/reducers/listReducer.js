@@ -13,11 +13,10 @@ const listReducer = (state = initState, action) => {
       return [
         ...state,
         {
+          _id: action.payload._id,
           listName: action.payload.listName,
           emoji: action.payload.emoji,
-          _id: action.payload._id,
           tickers: tickersArray,
-          // listActiveOnListPage,
         },
       ];
     case "RENAME_LIST":
@@ -32,26 +31,13 @@ const listReducer = (state = initState, action) => {
       return state.filter((list) => list._id !== action.payload._id);
 
     case "ADD_TICKER_TO_LIST":
-      // remove the list out of lists
-      // const stateWithoutCurrentList = state.filter(
-      //   (list) => list._id !== action.payload._id
-      // );
-      // // take the list and modify its tickers
-      // const currentList = state.filter((list) => list._id === action.payload._id);
-      // currentList.tickers = ["111", "222"];
-      // return new lists with the modified list inside
-      return state;
-    // [...state, stateWithoutCurrentList.push(currentList)];
+      return [...state];
+    case "ADD_TICKER_TO_DB":
+      return [...state];
     case "REMOVE_TICKER_FROM_LIST":
       return [...state];
-    // [
-    //   ...state,
-    //   {
-    //     tickers: tickersArray.filter(
-    //       (ticker) => ticker !== action.payload.symbol
-    //     ),
-    //   },
-    // ];
+    case "REMOVE_TICKER_FROM_DB":
+      return [...state];
     case "STREAMING_PRICE_IN_LIST":
       const index = state.tickers?.findIndex(
         (item) => item.symbol === action.payload.symbol

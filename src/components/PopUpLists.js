@@ -32,9 +32,10 @@ const PopUpLists = ({ quote, company }) => {
     dispatch(isNotAddingList());
   };
 
-  useEffect(() => {
-    dispatch(getWatchListsAction());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getWatchListsAction());
+  //   console.log("this getwathclist is from popuplist.js");
+  // }, [dispatch]);
 
   return (
     <div className="popuplists-container">
@@ -76,16 +77,28 @@ const PopUpLists = ({ quote, company }) => {
             </div>
           )}
           <div className="lists-container addtolist-list">
-            <ul>
-              {watchLists.map((list) => (
-                <PopUpAddedList
-                  key={list._id}
-                  list={list}
-                  quote={quote}
-                  company={company}
-                />
-              ))}
-            </ul>
+            {watchLists.length > 0 ? (
+              <ul>
+                {watchLists.map((watchList) => (
+                  <PopUpAddedList
+                    key={watchList._id}
+                    watchList={watchList}
+                    quote={quote}
+                    company={company}
+                  />
+                ))}
+              </ul>
+            ) : (
+              <div className="loading-lists-effect">
+                <div className="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+                <p>Loading Lists...</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

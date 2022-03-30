@@ -56,7 +56,6 @@ const List = () => {
     );
     const watchList = filterListfromLists[firstListInArrayIndex]; // because there's only 1 object in array after filter
     dispatch(getWatchListsAction());
-    console.log("this ");
     setCurrentList(watchList);
     setListName(watchList.listName);
     setEmoji(watchList.emoji);
@@ -72,6 +71,7 @@ const List = () => {
       dispatch(getWatchListFromParamsAction(params.id));
       return;
     }
+    console.log("this getwatchlist is from list.js");
   }, [location.pathname]);
 
   ////////////////////////////////////////////////////////////////////////////////

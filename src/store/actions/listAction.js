@@ -1,9 +1,20 @@
 import axios from "axios";
-import { getWatchLists } from "../../api";
+import { getWatchLists, quoteData } from "../../api";
 
 export const getWatchListsAction = () => async (dispatch) => {
   const response = await axios.get(getWatchLists);
   const list = response.data;
+
+  // base on the tickers of each list, get current data of each ticker
+  for (let i of list) {
+    for (let j of i.tickers) {
+      const quote = await axios.get(quoteData(j.symbol));
+      j.stockCurrentPrice = quote.data.c;
+      j.stockPercentChange = quote.data.dp;
+      j.stockPriceChange = quote.data.d;
+      j.stockPreviousClose = quote.data.pc;
+    }
+  }
   dispatch({
     type: "GET_WATCHLISTS",
     payload: list,
@@ -37,33 +48,22 @@ export const removeListAction = (_id) => (dispatch) => {
   });
 };
 
-export const addTickerToListAction = (symbol, _id) => (dispatch) => {
+export const addTickerToListAction = (stock, _id) => async (dispatch) => {
   dispatch({
     type: "ADD_TICKER_TO_LIST",
     payload: {
-      symbol,
+      stock,
       _id,
     },
   });
 };
 
-export const removeTickerFromListAction = (symbol, _id) => (dispatch) => {
+export const removeTickerFromListAction = (stock, _id) => (dispatch) => {
   dispatch({
     type: "REMOVE_TICKER_FROM_LIST",
     payload: {
-      symbol,
+      stock,
       _id,
     },
   });
 };
-
-export const currentPriceStreamingInListAction =
-  (symbol, quoteStreaming) => (dispatch) => {
-    dispatch({
-      type: "STREAMING_PRICE_IN_LIST",
-      payload: {
-        symbol,
-        quoteStreaming,
-      },
-    });
-  };

@@ -29,12 +29,23 @@ const FavListPanel = () => {
       <hr />
 
       {PopUpAddingList ? <FormCreateList /> : ""}
-
-      <div className="fav-items">
-        {watchLists.map((list) => (
-          <FavListPanelsList key={list._id} list={list} />
-        ))}
-      </div>
+      {watchLists.length > 0 ? (
+        <div className="fav-items">
+          {watchLists.map((list) => (
+            <FavListPanelsList key={list._id} list={list} />
+          ))}
+        </div>
+      ) : (
+        <div className="loading-lists-effect">
+          <div className="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <p>Loading Lists...</p>
+        </div>
+      )}
     </div>
   );
 };
