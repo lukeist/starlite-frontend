@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import News from "../components/News";
 import NewsMain from "../components/NewsMain";
 import FavListPanel from "../components/FavListPanel";
@@ -7,11 +7,16 @@ import { newsAction } from "../store/actions/newsAction";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { getWatchListsAction } from "../store/actions/listAction";
+import {
+  getWatchListsToRedux,
+  getTickersToWatchLists,
+} from "../components/_getStocksForMyFirstList";
 
 const Home = () => {
   const dispatch = useDispatch();
   // get data back from state
   const { general, newsActive } = useSelector((state) => state.entities.news);
+  const watchLists = useSelector((state) => state.entities.watchLists);
   const generalWithoutBloomberg = general.filter(
     (key) => key.source !== "Bloomberg"
   );
@@ -24,11 +29,42 @@ const Home = () => {
     dispatch(newsAction());
     dispatch(getWatchListsAction());
     // console.log("this getwatchlist is from home");
+    // if (watchLists.length === 0) {
+    //   getWatchListsToRedux(dispatch).catch(console.error);
+    //   console.log(watchLists.length);
+
+    //   // console.log(watchLists);
+    //   return;
+    // }
+    // if (watchLists.length > 0) {
+    //   getTickersToWatchLists(watchLists, dispatch).catch(console.error);
+    //   return;
+    // }
   }, [dispatch]);
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  /////////////////////////////////////////////////////////////////////////////////// suggestion to go to no backend version
+  // const [popUpSuggestion, setPopUpSuggestion] = useState(false);
+  // setTimeout(() => {
+  //   setPopupAfterTrade(false);
+  // }, 3000);
+
   return (
     <div className="home">
+      {/* {popUpSuggestion && (
+        <div>
+          <p>
+            This version with database from backend could be slow loading data
+            from API.
+          </p>
+          <p>
+            You could test the version without backend{" "}
+            <a href="https://starlite-without-database.netlify.app/">here</a>.
+          </p>
+          <p>I appreciate it :)</p>
+        </div>
+      )} */}
+
       {newsActive ? (
         <div className="home-body">
           <div className="news-body">
