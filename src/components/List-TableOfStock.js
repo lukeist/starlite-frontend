@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { removeTickerFromListAction } from "../store/actions/listAction";
 import axios from "axios";
 import { updateWatchListTickers } from "../api";
-
+import decimalConverter from "../components/_getDecimal";
 export const TableofStockHeader = () => {
   return (
     <div className="list-page-table-header">
@@ -92,8 +92,8 @@ export const TableOfStock = ({
                 />
               )}{" "}
               {stock.stockPercentChange > 0
-                ? `+` + stock.stockPercentChange
-                : stock.stockPercentChange}
+                ? `+` + decimalConverter(stock.stockPercentChange, 100)
+                : decimalConverter(stock.stockPercentChange, 100)}
               %
             </li>
             <li className="table-right">{stock.marketCap}</li>

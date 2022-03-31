@@ -8,7 +8,9 @@ const listReducer = (state = initState, action) => {
     case "GET_WATCHLISTS":
       state = action.payload;
       return [...state];
-
+    case "GET_WATCHLISTS_NAMES":
+      state = action.payload;
+      return [...state];
     case "CREATE_LIST":
       return [
         ...state,

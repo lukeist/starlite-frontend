@@ -8,7 +8,7 @@ const initState = {
 
 const getWatchListFromParamsReducer = (state = initState, action) => {
   switch (action.type) {
-    case "GET_TEMPORARY_WATCHLIST":
+    case "GET_WATCHLIST_FROM_PARAMS":
       const list = action.payload;
       return { ...list };
     default:

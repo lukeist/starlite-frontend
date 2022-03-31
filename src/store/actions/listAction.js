@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getWatchLists, quoteData } from "../../api";
+import { companyProfile, getWatchLists, quoteData } from "../../api";
+import companyMarketCap from "../../components/_getCompanyMarketCap";
 
 export const getWatchListsAction = () => async (dispatch) => {
   const response = await axios.get(getWatchLists);
@@ -9,14 +10,27 @@ export const getWatchListsAction = () => async (dispatch) => {
   for (let i of list) {
     for (let j of i.tickers) {
       const quote = await axios.get(quoteData(j.symbol));
+      const company = await axios.get(companyProfile(j.symbol));
+
       j.stockCurrentPrice = quote.data.c;
       j.stockPercentChange = quote.data.dp;
       j.stockPriceChange = quote.data.d;
       j.stockPreviousClose = quote.data.pc;
+      j.marketCap = companyMarketCap(company.data);
     }
   }
   dispatch({
     type: "GET_WATCHLISTS",
+    payload: list,
+  });
+};
+
+export const getWatchListsNameAction = () => async (dispatch) => {
+  const response = await axios.get(getWatchLists);
+  const list = response.data;
+
+  dispatch({
+    type: "GET_WATCHLISTS_NAMES",
     payload: list,
   });
 };

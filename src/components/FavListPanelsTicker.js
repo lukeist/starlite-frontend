@@ -9,70 +9,70 @@ import { api_key_websocket } from "../api";
 const FavListPanelsTicker = ({ stock }) => {
   ///////////////////////////////////////////////////  streaming price using websocket
   const symbol = stock.symbol; //****************************** // use this when not using websocket
-  // const symbol = "BINANCE:BTCUSDT";
-  ///////////////////////////////////////////////////
+  // // const symbol = "BINANCE:BTCUSDT";
+  // ///////////////////////////////////////////////////
 
   const stockCurrentPrice = numberWithCommas(
     decimalConverter(stock.stockCurrentPrice, 100)
   );
   const stockPercentChange = decimalConverter(stock.stockPercentChange, 100);
   const stockPriceChange = stock.stockPriceChange;
-  // ////////////////////////////////////////////////////////////////
-  // //////////////////////////////////////////////////////////////// WEB SOCKET
-  // ////////////////////////////////////////////////////////////////
-  const iniState = { current: 0 };
-  const [stockPrice, setStockPrice] = useState(iniState);
-  useEffect(() => {
-    console.log("MOUNTING");
-    const socket = new WebSocket(`wss://ws.finnhub.io${api_key_websocket}`);
-    // Connection opened -> Subscribe
-    socket.addEventListener("open", function (event) {
-      socket.send(JSON.stringify({ type: "subscribe", symbol }));
-      console.log("OPENED");
-    });
+  // // ////////////////////////////////////////////////////////////////
+  // // //////////////////////////////////////////////////////////////// WEB SOCKET
+  // // ////////////////////////////////////////////////////////////////
+  // const iniState = { current: 0 };
+  // const [stockPrice, setStockPrice] = useState(iniState);
+  // useEffect(() => {
+  //   console.log("MOUNTING");
+  //   const socket = new WebSocket(`wss://ws.finnhub.io${api_key_websocket}`);
+  //   // Connection opened -> Subscribe
+  //   socket.addEventListener("open", function (event) {
+  //     socket.send(JSON.stringify({ type: "subscribe", symbol }));
+  //     console.log("OPENED");
+  //   });
 
-    // Listen for messages
-    socket.addEventListener("message", function (event) {
-      const resJSON = JSON.parse(event.data);
-      const dataAtFirstIndex = resJSON.data;
+  //   // Listen for messages
+  //   socket.addEventListener("message", function (event) {
+  //     const resJSON = JSON.parse(event.data);
+  //     const dataAtFirstIndex = resJSON.data;
 
-      let price;
-      dataAtFirstIndex === undefined
-        ? (price = stockCurrentPrice)
-        : (price = resJSON?.data[0].p);
+  //     let price;
+  //     dataAtFirstIndex === undefined
+  //       ? (price = stockCurrentPrice)
+  //       : (price = resJSON?.data[0].p);
 
-      // console.log(resJSON);
-      console.log(price);
-      if (!resJSON) {
-        console.log("invalid data");
-        return;
-      }
-      if (!resJSON.data) {
-        price = stockCurrentPrice;
-        console.log("no data received, might have been only a ping");
-        return;
-      }
-      // take first entry of received data to show that it works
+  //     // console.log(resJSON);
+  //     console.log(price);
+  //     if (!resJSON) {
+  //       console.log("invalid data");
+  //       return;
+  //     }
+  //     if (!resJSON.data) {
+  //       price = stockCurrentPrice;
+  //       console.log("no data received, might have been only a ping");
+  //       return;
+  //     }
+  //     // take first entry of received data to show that it works
 
-      // const updateChunk = resJSON.data.map(
-      //   (d) =>
-      //     `symbol: ${d?.s}, price: ${d?.p}, amount: ${d?.v}, time: ${new Date(
-      //       d?.t
-      //     ).toLocaleTimeString()}`
-      // );
-      // setStockPrice((prevSP) => [...prevSP, ...updateChunk]);
+  //     // const updateChunk = resJSON.data.map(
+  //     //   (d) =>
+  //     //     `symbol: ${d?.s}, price: ${d?.p}, amount: ${d?.v}, time: ${new Date(
+  //     //       d?.t
+  //     //     ).toLocaleTimeString()}`
+  //     // );
+  //     // setStockPrice((prevSP) => [...prevSP, ...updateChunk]);
 
-      if (price === undefined) {
-        setStockPrice((prev) => {
-          return { ...prev, ...{ current: stockCurrentPrice } };
-        });
-      } else {
-        setStockPrice((prev) => {
-          return { ...prev, ...{ current: price } };
-        });
-      }
-    });
-  }, []);
+  //     if (price === undefined) {
+  //       setStockPrice((prev) => {
+  //         return { ...prev, ...{ current: stockCurrentPrice } };
+  //       });
+  //     } else {
+  //       setStockPrice((prev) => {
+  //         return { ...prev, ...{ current: price } };
+  //       });
+  //     }
+  //   });
+  // }, []);
   ////////////////////////////////////////////////////////////////
   return (
     <Link to={`/stocks/${symbol}`}>
@@ -127,10 +127,10 @@ const FavListPanelsTicker = ({ stock }) => {
               }`}
             >
               {/* ****************************** // use this when not using websocket */}
-              {stockPrice.current === 0
+              {"$" + stockCurrentPrice}
+              {/* {stockPrice.current === 0
                 ? "$" + stockCurrentPrice
-                : "$" + decimalConverter(stockPrice.current, 100)}
-              {/* ${stockPrice.current} */}
+                : "$" + decimalConverter(stockPrice.current, 100)} */}
             </dt>
             {/* {stockPercentChange < 0 ? (
               <dd className="stonk-down">{stockPercentChange}%</dd>

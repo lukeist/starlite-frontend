@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(newsAction());
     dispatch(getWatchListsAction());
-    console.log("this getwatchlist is from home");
+    // console.log("this getwatchlist is from home");
   }, [dispatch]);
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

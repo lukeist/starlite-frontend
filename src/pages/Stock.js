@@ -56,6 +56,9 @@ const Stock = () => {
   const firstIndexOfTradeMessages = 0;
   const notificationMessage = tradeMessages[firstIndexOfTradeMessages];
 
+  useEffect(() => {
+    // window.location.reload();
+  }, [location]);
   ////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////// WEB SOCKET
   ////////////////////////////////////////////////////////////////
@@ -64,6 +67,7 @@ const Stock = () => {
 
   const iniState = { current: 0 };
   const [stockPrice, setStockPrice] = useState(iniState);
+
   useEffect(() => {
     console.log("MOUNTING");
     const socket = new WebSocket(`wss://ws.finnhub.io${api_key_websocket}`);
@@ -94,15 +98,6 @@ const Stock = () => {
         console.log("no data received, might have been only a ping");
         return;
       }
-      // take first entry of received data to show that it works
-
-      // const updateChunk = resJSON.data.map(
-      //   (d) =>
-      //     `symbol: ${d?.s}, price: ${d?.p}, amount: ${d?.v}, time: ${new Date(
-      //       d?.t
-      //     ).toLocaleTimeString()}`
-      // );
-      // setStockPrice((prevSP) => [...prevSP, ...updateChunk]);
 
       if (price === undefined) {
         setStockPrice((prev) => {
@@ -114,6 +109,8 @@ const Stock = () => {
         });
       }
     });
+
+    return () => socket.close();
   }, []);
   ////////////////////////////////////////////////////////////////
   return (

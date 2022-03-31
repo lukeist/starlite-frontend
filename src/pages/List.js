@@ -12,15 +12,18 @@ import ListHeader from "../components/List-Header";
 import { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
-import { getWatchLists, watchListsFromDB } from "../api";
+import { companyProfile, getWatchLists, watchListsFromDB } from "../api";
 import axios from "axios";
-import { getWatchListsAction } from "../store/actions/listAction";
+import {
+  getWatchListsAction,
+  getWatchListsNameAction,
+} from "../store/actions/listAction";
 import { getWatchListFromParamsAction } from "../store/actions/getWatchListFromParamsAction";
 
 const List = () => {
   // get currentList from props of FavListPanelsList.js when click on <Link>
-  const watchLists = useSelector((state) => state.entities.watchLists);
-  const tempWatchListFromParams = useSelector(
+  // const watchLists = useSelector((state) => state.entities.watchLists);
+  const currentList = useSelector(
     (state) => state.entities.tempWatchListFromParams
   );
   const location = useLocation();
@@ -28,17 +31,12 @@ const List = () => {
   const params = useParams();
   const listId = params.id;
 
-  // const currentList = location.state;
-
-  // const { watchLists } = useSelector((state) => state.entities);
-
   const firstListInArrayIndex = 0;
-  const filterListfromListsinReduxState = watchLists.filter(
-    (list) => list._id === listId
-  );
-  const watchList = filterListfromListsinReduxState[firstListInArrayIndex]; //because filter return [{watchlist}]
-  const [currentList, setCurrentList] = useState(tempWatchListFromParams);
-  // const listId = currentList._id;
+  // const filterListfromListsinReduxState = watchLists.filter(
+  //   (list) => list._id === listId
+  // );
+  // const watchList = filterListfromListsinReduxState[firstListInArrayIndex]; //because filter return [{watchlist}]
+  // const [currentList, setCurrentList] = useState(tempWatchListFromParams);
 
   const [listName, setListName] = useState(currentList.listName);
   const [emoji, setEmoji] = useState(currentList.emoji);
@@ -55,8 +53,11 @@ const List = () => {
       (list) => list._id === listId
     );
     const watchList = filterListfromLists[firstListInArrayIndex]; // because there's only 1 object in array after filter
-    dispatch(getWatchListsAction());
-    setCurrentList(watchList);
+    // dispatch(getWatchListsAction());
+    dispatch(getWatchListFromParamsAction(params.id));
+
+    dispatch(getWatchListsNameAction());
+    // setCurrentList(watchList);
     setListName(watchList.listName);
     setEmoji(watchList.emoji);
   };
@@ -64,15 +65,23 @@ const List = () => {
   //////////////// SET CURRENT LIST WHEN CLICK ON LIST PANEL's ITEM on LIST PAGE
   // reload the watch list from database whenever enter the path in browser
 
+  // useEffect(() => {
+  //   // useEffect only when pathname has /lists/xxx, not /stocks/xxx or anything else
+  //   if (location.pathname.includes("lists")) {
+  //     getCurrentWatchList();
+  //     dispatch(getWatchListFromParamsAction(params.id));
+  //     return;
+  //   }
+  //   console.log("this getwatchlist is from list.js");
+  // }, [location.pathname]);
+
   useEffect(() => {
-    // useEffect only when pathname has /lists/xxx, not /stocks/xxx or anything else
     if (location.pathname.includes("lists")) {
       getCurrentWatchList();
-      dispatch(getWatchListFromParamsAction(params.id));
       return;
     }
     console.log("this getwatchlist is from list.js");
-  }, [location.pathname]);
+  }, [dispatch, location.pathname]);
 
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +135,6 @@ const List = () => {
                 setIsDeletingList={setIsDeletingList}
               />
             </div>
-
             <div className="header-sticky">
               <ListHeader
                 listId={listId}
@@ -137,7 +145,7 @@ const List = () => {
                 setListName={setListName}
                 setIsDeletingList={setIsDeletingList}
               />
-            </div>
+            </div>{" "}
             {currentList.tickers.length > 0 && (
               <div className="table-row">
                 <TableofStockHeader />
@@ -155,6 +163,10 @@ const List = () => {
               </div>
             )}
           </div>
+          {/* <button onClick={() => console.log(watchLists, watchList)}>
+            alds;kfjas
+          </button> */}
+
           <div className="fav-container">
             <FavListPanel />
           </div>
