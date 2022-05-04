@@ -19,9 +19,9 @@ I apologize for this inconvenience.
 - Click on any list or stock to go to their own page.  
 
 3. Stock Page:
-If you want to look for a certain stock, click on its name on the front page or type it in the browser: starlite.netlify.app/stock/<SymbolOfStock>, for example:
-- starlite.netlify.app/stocks/AAPL or starlite.netlify.app/stocks/aapl for Apple
-- starlite.netlify.app/stocks/MSFT or starlite.netlify.app/stocks/msft for Microsoft
+If you want to look for a certain stock, click on its name on the front page or type it in the browser: starlite.netlify.app/stocks/:SymbolOfStock, for example:
+- https://starlite.netlify.app/stocks/AAPL or https://starlite.netlify.app/stocks/aapl for Apple
+- https://starlite.netlify.app/stocks/MSFT or https://starlite.netlify.app/stocks/msft for Microsoft
   
 The stock price on this page is live by using websocket. 
 
@@ -29,7 +29,7 @@ From here you can buy, sell by number of shares or the amount of dollars you hav
 You can also add them to your favorite watch list by using the button "Watch <Symbol>"
 
 4. List Page:
-If you want to see a certain list, click on its name on the front page or use its id in the browser: https://starlite.netlify.app/lists/<id>, for example: 
+If you want to see a certain list, click on its name on the front page or use its id in the browser: https://starlite.netlify.app/lists/:id, for example: 
 - https://starlite.netlify.app/lists/6243cb9f92404d2813e29144
 From here you can navigate to other lists by clicking on the right menu.
   
