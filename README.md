@@ -25,7 +25,7 @@ A WebApp, with real-time market data (finnhub.io's API), lets you follow your fa
 
 3. Stock Page:
 
-![alt tag](https://i.ibb.co/dg8Hspy/starlite-online-trading-platform-hiluan-3.jpg)
+![alt tag](https://i.ibb.co/VgXSftx/starlite-online-trading-platform-hiluan-3.jpg)
 
 If you want to look for a certain stock, click on its name on the front page or type it in the browser: starlite.netlify.app/stocks/:SymbolOfStock, for example:
 - https://starlite.netlify.app/stocks/AAPL or https://starlite.netlify.app/stocks/aapl for Apple
