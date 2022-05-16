@@ -13,12 +13,12 @@ A WebApp, with real-time market data (finnhub.io's API), lets you follow your fa
 
 ![alt tag](https://i.ibb.co/dg8Hspy/starlite-online-trading-platform-hiluan-2.jpg)
 
-- Search from API is not accurate for company names so input stocks' symbols is suggested.
-- Portfolio Tab to Portfolio Page: you can generate a sample data to test. Or you can go to a certain stock's page, purchase your favorite stock there, then see you portfolio. 
-- Message Tab is for all notifications and historic trades.
+- Search from API is not accurate for company names so input stocks' symbols are suggested.
+- Portfolio Tab to Portfolio Page: you can generate sample data to test. Or you can go to a certain stock page, purchase your favorite stock there, then see your portfolio. 
+- The message Tab is for all notifications and historic trades.
 - Account Tab to Account Page which is still in development.
 
-2. Front Page:
+2. FrontPage:
 - View the latest news about the market.
 - There are watch lists on the right. Feel free to add, edit and remove to test them.
 - Click on any list or stock to go to their own page.  
@@ -31,9 +31,9 @@ If you want to look for a certain stock, click on its name on the front page or 
 - https://starlite.netlify.app/stocks/AAPL or https://starlite.netlify.app/stocks/aapl for Apple
 - https://starlite.netlify.app/stocks/MSFT or https://starlite.netlify.app/stocks/msft for Microsoft
   
-The stock price on this page is updated in real time by using websocket. 
+The stock price on this page is updated in real-time by using WebSocket. 
 
-From here you can buy, sell by number of shares or the amount of dollars you have. 
+From here you can buy, or sell-by a number of shares, or the number of dollars you have. 
 You can also add them to your favorite watch list by using the button "Watch <Symbol>"
 
 4. List Page:
@@ -51,7 +51,7 @@ If any page takes too long to load please refresh it.
 ## Lessons Learned:
 
 Before using any API, the pros and cons should be weight because it's complicated to switch to another API later. 
-Redux is awesome. The code that trigger the state change can be put inside as well as outside actions and reducers. 
+Redux is awesome. The code that triggers the state change can be put inside as well as outside actions and reducers. 
   
   
 
@@ -61,6 +61,3 @@ Take a look at these couple examples that I have in my own portfolio:
 **Waves - Lofi Music Player** https://github.com/hiluan/waves
 
 **hiluan.dev - Portfolio Page** https://github.com/hiluan/hiluan-frontend
-
-
-
