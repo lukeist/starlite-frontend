@@ -1,10 +1,5 @@
-// base URL
-// const base_url = `http://api.rawg.io/api/games?key=${process.env.REACT_APP_RAWG_API}&`;
-
 import axios from "axios";
 
-// const base_url = `http://api.weatherapi.com/v1/`;
-// const api_key = `json?&key=${process.env.REACT_APP_WEATHER_API}`;
 // getting the date
 const getCurrentMonth = () => {
   const month = new Date().getMonth() + 1;
@@ -23,18 +18,6 @@ const getCurrentDay = () => {
     return day;
   }
 };
-
-// const lastYear = `${currentYear - 1}-${currentMonth}.${currentDay}`;
-// const nextYear = `${currentYear + 1}-${currentMonth}.${currentDay}`;
-
-// // popular games
-// const popularGames = `dates=${lastYear},${currentDate}&ordering=-rating&page_size=10`;
-// const upcomingGames = `date=${currentDate},${nextYear}&ordering=-added&page_size=10`;
-// const newGames = `date=${lastYear},${currentDate}&ordering=-released&page_size=10`;
-
-// export const popularGamesURL = () => `${base_url}${popularGames}`;
-// export const upcomingGamesURL = () => `${base_url}${upcomingGames}`;
-// export const newGamesURL = () => `${base_url}${newGames}`;
 
 const base_url = `https://finnhub.io/api/v1/`;
 const apiENV = process.env.REACT_APP_FINNHUB_API;
