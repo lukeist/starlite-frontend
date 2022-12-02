@@ -106,11 +106,21 @@ export const symbolLookupData = (terms) =>
 // };
 
 //////////////////////////////////////////////////////// DATA FROM STARLITE BACKEND MONGODB
-export const starliteAPI = process.env.REACT_APP_STARLITE_API;
-export const getWatchLists = `${process.env.REACT_APP_STARLITE_API}/watchlists/`;
-export const postWatchList = `${process.env.REACT_APP_STARLITE_API}/watchlists/add`;
-export const updateWatchList = `${process.env.REACT_APP_STARLITE_API}/update-watchlist`;
-export const updateWatchListTickers = `${process.env.REACT_APP_STARLITE_API}/update-watchlist-tickers`;
+// export const starliteAPI = process.env.REACT_APP_STARLITE_API;
+// export const getWatchLists = `${process.env.REACT_APP_STARLITE_API}/watchlists/`;
+// export const postWatchList = `${process.env.REACT_APP_STARLITE_API}/watchlists/add`;
+// export const updateWatchList = `${process.env.REACT_APP_STARLITE_API}/update-watchlist`;
+// export const updateWatchListTickers = `${process.env.REACT_APP_STARLITE_API}/update-watchlist-tickers`;
+
+// export const deleteWatchList = (id) =>
+//   `${process.env.REACT_APP_STARLITE_API}/delete-watchlist/${id}`;
+
+export const starliteAPI =
+  "https://starlite-backend-production.up.railway.app/";
+export const getWatchLists = `https://starlite-backend-production.up.railway.app/watchlists/`;
+export const postWatchList = `https://starlite-backend-production.up.railway.app/watchlists/add`;
+export const updateWatchList = `https://starlite-backend-production.up.railway.app/update-watchlist`;
+export const updateWatchListTickers = `https://starlite-backend-production.up.railway.app/update-watchlist-tickers`;
 
 export const deleteWatchList = (id) =>
-  `${process.env.REACT_APP_STARLITE_API}/delete-watchlist/${id}`;
+  `https://starlite-backend-production.up.railway.app//delete-watchlist/${id}`;
